@@ -18,9 +18,10 @@ import { AuthContext } from '../context/AuthContext';
 import { User, Conversation, Message } from "../types/ModelTypes";
 import { useNavigation } from '@react-navigation/native';
 import { ArrowLeftIcon } from 'phosphor-react-native';
-import { API_SOCKET_URL } from '@env';
+// import { API_SOCKET_URL } from '@env';
 import ChatScreenSkeleton from "../components/Skeleton/ChatScreenSkeleton"
-// const API_SOCKET_URL = "wss://distances-eau-attempt-impose.trycloudflare.com"
+
+const API_SOCKET_URL = "wss://terrorist-excluded-telescope-regulations.trycloudflare.com"
 
 
 const ChatScreen = () => {
@@ -81,10 +82,20 @@ const ChatScreen = () => {
     
       try {
         const parsedData = JSON.parse(data);
-        console.log("✅ [ChatScreen] Notification parsée:", parsedData);
+        console.log(" [ChatScreen] Notification parsée:", parsedData);
+    
+        if (parsedData.type === "connection_established") {
+          console.log("🟢 [ChatScreen] Connexion établie avec le serveur de notifications");
+          console.log("👤 User connecté:", parsedData.user_id);
+          return;
+        }
     
         if (parsedData.type === "new_message") {
-          console.log("💬 [ChatScreen] Nouveau message détecté !");
+          if (parsedData.is_own_message) {
+            console.log("📤 [ChatScreen] Notification de MON propre message");
+          } else {
+            console.log("📨 [ChatScreen] Notification d'un message reçu");
+          }
           handleNewMessage(parsedData);
         } else {
           console.log("ℹ️ [ChatScreen] Type de notification non géré:", parsedData.type);
@@ -104,27 +115,35 @@ const ChatScreen = () => {
   }, [user?.id, token]);
 
   const handleNewMessage = (notification: any) => {
-    const { conversation_id, message_id, sender_id, content, timestamp } =
-      notification;
-
+    const { 
+      conversation_id, 
+      message_id, 
+      sender_id, 
+      content, 
+      timestamp,
+      is_own_message 
+    } = notification;
+  
+    console.log("🚀 [handleNewMessage] Notification traitée:", notification);
+    console.log("👤 user.id:", user?.id);
+    console.log("📨 is_own_message:", is_own_message);
+  
     setConversations((prevConversations) => {
       const updatedConversations = [...prevConversations];
-
+  
       const conversationIndex = updatedConversations.findIndex(
         (conv) => conv.id == conversation_id
       );
-
-      console.log("🚀 [handleNewMessage] Notification traitée:", notification);
-      console.log("👤 user.id:", user?.id);
+  
       console.log("📌 conversationIndex trouvé:", conversationIndex);
-
+  
       if (conversationIndex != -1) {
         const updatedConversation = {
           ...updatedConversations[conversationIndex],
         };
-
+  
         console.log("📌 Conversation avant update:", updatedConversation);
-
+  
         const newMessage: Message = {
           id: message_id,
           conversation: conversation_id,
@@ -133,32 +152,45 @@ const ChatScreen = () => {
           ) as User,
           content: content,
           timestamp: timestamp,
-          is_read: sender_id == user?.id,
+          is_read: is_own_message, //  Si c'est notre message, il est déjà lu
         };
-
+  
         console.log("🆕 Nouveau message construit:", newMessage);
-
+  
         if (updatedConversation.messages) {
-          updatedConversation.messages = [
-            ...updatedConversation.messages,
-            newMessage,
-          ];
+          //  Vérifier si le message n'existe pas déjà (éviter les doublons)
+          const messageExists = updatedConversation.messages.some(
+            (msg) => msg.id === message_id
+          );
+          
+          if (!messageExists) {
+            updatedConversation.messages = [
+              ...updatedConversation.messages,
+              newMessage,
+            ];
+          } else {
+            console.log("⚠️ Message déjà existant, ignoré");
+            return prevConversations;
+          }
         } else {
           updatedConversation.messages = [newMessage];
         }
-
+  
         updatedConversation.updated_at = timestamp;
-
+  
         updatedConversations[conversationIndex] = updatedConversation;
-
+  
+        // Trier les conversations par date de mise à jour
         updatedConversations.sort(
           (a, b) =>
             new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
         );
-
+  
         return updatedConversations;
       }
-
+  
+      // Si la conversation n'existe pas dans la liste, recharger
+      console.log("⚠️ Conversation non trouvée, rechargement...");
       fetchConversations();
       return prevConversations;
     });
@@ -182,42 +214,7 @@ const ChatScreen = () => {
         <Text className="text-lg font-bold ml-5">Message</Text>
       </View>
 
-      {/* <View className="flex-row justify-center mb-5 mt-2 gap-5 px-5 ">
-        
-        <TouchableOpacity
-          className={`py-3 rounded-full flex-1 items-center justify-center  ${filter == 'nonlus' ? 'bg-[#03233A]' : 'bg-gray-200'}`}
-          onPress={() => setFilter('nonlus')}
-        >
-          <Text className={`${filter == 'nonlus' ? 'text-white' : 'text-[#03233A]'} font-normal`} >
-            Non lus
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          className={`py-3 rounded-full flex-1 items-center justify-center ${filter == 'lus' ? 'bg-[#03233A]' : 'bg-gray-200'}`}
-          onPress={() => setFilter('lus')}
-        >
-          <Text className={`${filter == 'lus' ? 'text-white' : 'text-[#03233A]'} font-normal `}>
-            Lus
-          </Text>
-        </TouchableOpacity>
-      </View> */}
-
-
-
       <View style={styles.contentContainer}>
-        {/* <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginTop: 20,
-            marginBottom: 10,
-            marginHorizontal: 12,
-          }}
-        >
-          <Text style={styles.sectionTitle}>Conversations</Text>
-        </View> */}
         {
         isRefreshing ?
           <ChatScreenSkeleton />

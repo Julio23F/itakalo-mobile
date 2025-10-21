@@ -10,9 +10,9 @@ import SearchBar from '../components/SearchBar';
 import { ArrowLeftIcon } from 'phosphor-react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDebounce } from '../hooks/useDebounce';
-import { API_BASE_URL } from '@env';
+// import { API_BASE_URL } from '@env';
 
-// const API_BASE_URL = 'https://distances-eau-attempt-impose.trycloudflare.com'; 
+const API_BASE_URL = "https://terrorist-excluded-telescope-regulations.trycloudflare.com"
 
 export default function SearchScreen() {
   const [search, setSearch] = useState('');
