@@ -40,7 +40,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 // import { API_SOCKET_URL } from '@env';
 
-const API_SOCKET_URL = "wss://terrorist-excluded-telescope-regulations.trycloudflare.com"
+const API_SOCKET_URL = "wss://locations-brooks-hide-clear.trycloudflare.com"
 import ProductDetailsInMessage from '../components/ProductDetailsInMessage';
 
 type ChatScreenRouteProp = RouteProp<

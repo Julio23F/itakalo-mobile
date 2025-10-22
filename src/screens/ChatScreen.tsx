@@ -21,7 +21,7 @@ import { ArrowLeftIcon } from 'phosphor-react-native';
 // import { API_SOCKET_URL } from '@env';
 import ChatScreenSkeleton from "../components/Skeleton/ChatScreenSkeleton"
 
-const API_SOCKET_URL = "wss://terrorist-excluded-telescope-regulations.trycloudflare.com"
+const API_SOCKET_URL = "wss://locations-brooks-hide-clear.trycloudflare.com"
 
 
 const ChatScreen = () => {

@@ -2,7 +2,7 @@ import axios from "axios";
 import EncryptedStorage from "react-native-encrypted-storage";
 // import { API_BASE_URL } from '@env';
 
-const API_BASE_URL = "https://terrorist-excluded-telescope-regulations.trycloudflare.com"
+const API_BASE_URL = "https://locations-brooks-hide-clear.trycloudflare.com"
 console.log("API URL:", API_BASE_URL);
 
 const API = axios.create({
