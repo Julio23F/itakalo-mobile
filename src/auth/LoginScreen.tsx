@@ -55,6 +55,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   // Connexion avec Google
   const handleGoogleSignIn = async () => {
     const success = await loginWithGoogle();
+    console.log('Succès', 'handleGoogleSignIn 3 Connexion avec Google réussie ! 🎉');
+
     if (success) {
       Alert.alert('Succès', 'Connexion avec Google réussie ! 🎉');
     } else {

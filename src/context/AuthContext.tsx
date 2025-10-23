@@ -40,7 +40,7 @@ export const AuthContext = createContext<AuthContextProps>({
   updateUser: () => {},
 });
 
-// ⚠️ Configuration Google Sign-In
+// ⚠️ REMPLACEZ par VOTRE Web Client ID (type "Application Web")
 const GOOGLE_WEB_CLIENT_ID = '82290075303-99d1t00h5nfc82af5fs8kf6dlm7vajlc.apps.googleusercontent.com';
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -51,10 +51,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     // Configuration de Google Sign-In
+    console.log('🔧 Configuration Google Sign-In avec:', GOOGLE_WEB_CLIENT_ID);
+    
     GoogleSignin.configure({
       webClientId: GOOGLE_WEB_CLIENT_ID,
       offlineAccess: true,
-      forceCodeForRefreshToken: true,
+      // Retirez forceCodeForRefreshToken pour simplifier
     });
 
     loadUserFromStorageByToken();
@@ -105,24 +107,39 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Connexion avec Google
   const loginWithGoogle = async () => {
     setLoading(true);
+    
     try {
+      console.log('🔍 Étape 1: Vérification Google Play Services...');
+      
       // Vérifier les services Google Play
-      await GoogleSignin.hasPlayServices();
+      await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+      
+      console.log('✅ Google Play Services OK');
+      console.log('🔍 Étape 2: Tentative de connexion Google...');
 
       // Obtenir les informations utilisateur
       const userInfo = await GoogleSignin.signIn();
-      console.log('✅ Google User Info:', userInfo);
+      console.log('✅ Google User Info obtenu:', {
+        userInfo: userInfo
+      });
 
+      console.log('🔍 Étape 3: Récupération des tokens...');
+      
       // Obtenir l'ID token
-      const tokens = await GoogleSignin.getTokens();
-      console.log('🔑 ID Token:', tokens.idToken);
+      const tokens = await GoogleSignin.getTokens()
+        .then(() => console.log('✅ Configuration OK'))
+        .catch((err) => console.log('⚠️ Pas encore connecté ou config incorrecte'));
+        
+      console.log('✅ ID Token obtenu (longueur):', tokens.idToken?.length);
+
+      console.log('🔍 Étape 4: Envoi au backend...');
 
       // Envoyer le token au backend Django
       const response = await API.post('/api/v1/auth/google/', {
         token: tokens.idToken,
       });
 
-      console.log('✅ Réponse du serveur:', response.data);
+      console.log('✅ Réponse du serveur reçue');
 
       // Sauvegarder le JWT token et les infos utilisateur
       await EncryptedStorage.setItem('accessToken', response.data.token);
@@ -131,9 +148,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setToken(response.data.token);
       setUser(response.data.member);
 
-      console.log('Connexion Google réussie !', response.data.member);
+      console.log('✅ Connexion Google complète !', response.data.member);
       return true;
+      
     } catch (error: any) {
+      console.error('❌ Erreur lors de la connexion Google');
+      console.error('Error code:', error.code);
+      console.error('Error message:', error.message);
+      console.error('Full error:', JSON.stringify(error, null, 2));
+      
       handleGoogleSignInError(error);
       return false;
     } finally {
@@ -144,13 +167,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Gestion des erreurs Google Sign-In
   const handleGoogleSignInError = (error: any) => {
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-      console.log('❌ Connexion Google annulée');
+      console.log('❌ Connexion Google annulée par l\'utilisateur');
     } else if (error.code === statusCodes.IN_PROGRESS) {
-      console.log('⏳ Connexion Google en cours...');
+      console.log('⏳ Connexion Google déjà en cours...');
     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-      console.log('❌ Google Play Services non disponible');
+      console.log('❌ Google Play Services non disponible sur cet appareil');
+    } else if (error.code === '12501' || error.message?.includes('DEVELOPER_ERROR')) {
+      console.error('❌ DEVELOPER_ERROR détecté !');
+      console.error('Causes possibles:');
+      console.error('1. Le webClientId est incorrect ou de type "Android" au lieu de "Web"');
+      console.error('2. L\'API Google Sign-In n\'est pas activée');
+      console.error('3. Le package name ne correspond pas (doit être: com.itakalo)');
+      console.error('Web Client ID utilisé:', GOOGLE_WEB_CLIENT_ID);
     } else {
-      console.error('❌ Erreur Google Sign-In:', error?.response?.data || error.message);
+      console.error('❌ Erreur Google Sign-In inconnue:', error.message);
     }
   };
 

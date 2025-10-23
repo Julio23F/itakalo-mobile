@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "742087550307",
+    "project_id": "itakalo-848b4",
+    "storage_bucket": "itakalo-848b4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742087550307:android:9aeb6e7284e0a93e349f56",
+        "android_client_info": {
+          "package_name": "com.itakalo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmFc3gk8-PHblrQ0rO94tvWCTJOHvcvFY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

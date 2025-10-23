@@ -33,7 +33,7 @@ const RegisterBottomSheet: React.FC<RegisterBottomSheetProps> = ({
   const { loginWithGoogle, loading } = useContext(AuthContext);
 
   const handleGoogleSignIn = async () => {
-    console.log('Succès', 'Connexion avec Google réussie ! 🎉');
+    console.log('Succès', 'handleGoogleSignIn 2 Connexion avec Google réussie ! 🎉');
 
     const success = await loginWithGoogle();
     if (success) {

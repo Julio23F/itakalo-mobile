@@ -135,3 +135,6 @@ dependencies {
 }
 
 apply from: "../../node_modules/@revopush/react-native-code-push/android/codepush.gradle"
+
+//Je l'ai ajouté pour google Auth Fix
+apply plugin: 'com.google.gms.google-services'
