@@ -1,0 +1,112 @@
+[33m53d0a80[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Update: change API_BASE_URL
+[33mc611ca2[m UI: update bottomNavigationBar
+[33mcab8345[m Refactor
+[33m76984ce[m UI: ChatScreenSkeleton
+[33m57beb80[m[33m ([m[1;32mtest3d[m[33m)[m Refactor: Product List
+[33m7b45c6b[m Optimization: Product list
+[33m94e03ee[m Fix: ProductFullCard title hidden
+[33mb995fed[m Refactor: products
+[33m2b8655f[m optimization PatternLayout
+[33mfcbaa2b[m Refactor: HomeScreen
+[33m27dc6f5[m UI: refonte ProductScreen
+[33m98637d1[m UI: refonte homeScreen
+[33m492c6e9[m Merge branch 'main' of https://github.com/yann-andronio/i-takalo into main
+[33m39db5e6[m UI: change LinearGradient color
+[33m56cc5e8[m  update de navigation suggestion :
+[33m477275f[m Merge branch 'update2' into update3
+[33m38f0910[m Installation package
+[33m79175bd[m Merge
+[33m070a828[m[33m ([m[1;31morigin/update3[m[33m, [m[1;32mupdate3[m[33m)[m responsive searchbar and fake searchbar
+[33made48d5[m update like sans recharge product
+[33m688ff3a[m  ajout de skeleton sur productscreen
+[33mcf008f8[m  responsive productcard
+[33m1e9d714[m ajout de skeletton
+[33m7800447[m modification de color
+[33m32a747a[m UI: update primary color
+[33mdb32a97[m[33m ([m[1;31morigin/update2[m[33m, [m[1;32mupdate2[m[33m)[m  finition de preferencecard
+[33m06362e8[m  loading de preferencescreen
+[33m20ae2f7[m Try: scroll animation
+[33mf55e0f0[m Try: scroll animation
+[33mc83f5b0[m modif preferences
+[33m01d4e2e[m Feat: register google Auth
+[33ma5d6edd[m Refactor: StartScreen
+[33m46273c2[m Refactor: StartScreen
+[33m80b0e82[m Refactor: LoginBottomSheet
+[33m87c9b41[m Update: StartScreen UI
+[33mbeb29e0[m Update: SplashScreen animation
+[33me134762[m  page de references ok
+[33m6e079a8[m UX: add StartScreen animation
+[33m574ec50[m Merge branch 'update1' into update2
+[33mf51178a[m Installation package
+[33m7b2d6cc[m  animation splash screen
+[33m0baca1f[m  animation startpage
+[33m4c201c0[m Feat: google OAuth 2.0 authentification
+[33ma438a18[m Test: google OAuth 2.0 authentification
+[33mb91bc29[m Merge branch 'main' into update1
+[33m1163e58[m Build aab for playstore
+[33mca2ddd4[m Add logo
+[33m8daed6a[m Add logo
+[33mbada1ae[m[33m ([m[1;31morigin/update1[m[33m)[m  likes ok
+[33m42591da[m suggestion ok
+[33m429f3d2[m Feat (Prod): add revopush
+[33m7f25dff[m  push hoan julio
+[33m204bed5[m ajout de pagination
+[33mfdbee5f[m changement de carrousel
+[33m207785c[m  productscreen ok2
+[33mdf2c54c[m  productscreen ok
+[33m7a4e7f2[m  addecgange success
+[33m63fa5e5[m update de echange
+[33me6d9b8e[m change API base
+[33m46fcd34[m[33m ([m[1;31mbackup/main[m[33m, [m[1;31mbackup/1[m[33m)[m UI: change Gallery icon
+[33m27ff860[m Feat: show individual picture
+[33m3927155[m UI: messageImages
+[33md4d6bef[m Refactor: send pictures
+[33md6750e1[m Feat: send picture
+[33m38cf38f[m Phase de dev add image
+[33m242aa72[m Build apk: message
+[33m853dd75[m Update: message Type
+[33m6643faf[m Feat: reply to a message
+[33m59325e8[m Fix: delete reaction on message
+[33m8c90b23[m Feat: reaction on message
+[33m37295db[m UI: show SelectedReactionIcon
+[33m3a1ee7b[m Design: show icon reaction
+[33mdf6ecf8[m Installation package
+[33m34713ea[m[33m ([m[1;31morigin/message[m[33m, [m[1;32mmessage[m[33m)[m nametaka sary mode de paiement
+[33m9d872e8[m (feat): aemioration design
+[33m5bbc154[m (feat): payement  en action
+[33mfbf0bac[m ajoutt de productdetailsinmessage
+[33mb15c98a[m feat( productscreen): add tompon produit btn  tsy mahita message
+[33m5dcb2a2[m feat(usercontext , productcard , productscreen): add fetchauthorbyID
+[33mf8a9980[m[33m ([m[1;31mbackup/dev[m[33m)[m Change blue color by primary color
+[33m24d2ee2[m Change inputTextMessage bgColor
+[33m9538fd3[m Change friend message color
+[33mff1a8c9[m Fix: chat notifications
+[33maeb7600[m UI: refonte chat Screen
+[33ma905856[m UI: refonte chat
+[33maba7d36[m Refonte ConversationItem
+[33mfd1d41c[m Fix chat
+[33m63bc837[m Fix: chat
+[33mefd3daa[m Debug
+[33m42f8550[m  efa mandeha nle ar
+[33m2931ae1[m  little modif
+[33m0a448a3[m farany
+[33m95d9383[m  ajout de react vision
+[33mb3ff7a6[m creation de profil ok
+[33m483729f[m  nope
+[33mb047872[m  bak screenprodut
+[33m843779a[m  back fetchuser et product ok
+[33m4e8e6ab[m  add back detching product in homescreen
+[33m520139c[m  ajout de loadertoken
+[33m8a02f3b[m backend auth ok
+[33mf1bbdd1[m  some update design
+[33m85cad9f[m form donation et vente ok
+[33mf8c6979[m  finition de ajout article ux/ui
+[33md6dc2b9[m fiovana
+[33m492a54d[m filter ok
+[33m976b560[m home
+[33md2677ca[m some improve
+[33mc2fe0b0[m login ok
+[33m95a68ce[m somme
+[33md194c53[m  finition de startScreen
+[33m2f3747e[m first commit
+[33m2905653[m Initial commit
