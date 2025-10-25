@@ -8,7 +8,7 @@ import {
   PlusIcon,
 } from 'phosphor-react-native';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
-import { useScroll } from '../context/ScrollContext';
+import { useScroll } from '../context/ScrollContext'; 
 import Animated, {
   useAnimatedStyle,
   withTiming,
@@ -25,9 +25,11 @@ const CustomTabBar2: React.FC<Props> = ({ state, descriptors, navigation }) => {
   const routeName = getFocusedRouteNameFromRoute(route) ?? route.name;
 
   const { isTabVisible } = useScroll();
+  
+  // Style animé pour la translation et l'opacité
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [
-      { translateY: withTiming(isTabVisible ? 0 : 100, { duration: 500 }) },
+      { translateY: withTiming(isTabVisible ? 0 : 100, { duration: 500 }) }, 
     ],
     opacity: withTiming(isTabVisible ? 1 : 0, { duration: 500 }),
   }));
@@ -105,14 +107,13 @@ const CustomTabBar2: React.FC<Props> = ({ state, descriptors, navigation }) => {
                   style={{
                     backgroundColor: '#03233A',
                     padding: 12,
-                    marginBottom: '-20',
+                    marginBottom: -20, 
                   }}
                 >
                   <PlusIcon
                     size={24}
                     color={isFocused ? activeColor : '#fff'}
                   />
-                  ;
                 </View>
               );
             default:
@@ -147,6 +148,12 @@ export default CustomTabBar2;
 
 const styles = StyleSheet.create({
   container: {
+    // Positionnement absolu pour l'animation
+    position: 'absolute', 
+    bottom: 0, 
+    left: 0,
+    right: 0,
+    zIndex: 100, 
     flexDirection: 'row',
     height: 60,
     backgroundColor: '#fff',
@@ -154,6 +161,11 @@ const styles = StyleSheet.create({
     borderTopColor: '#ddd',
     justifyContent: 'space-around',
     alignItems: 'center',
+    elevation: 8, 
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
   },
   tabButton: {
     flex: 1,

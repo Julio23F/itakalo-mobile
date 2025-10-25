@@ -20,6 +20,7 @@ import codePush from '@revopush/react-native-code-push';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { PaperProvider } from 'react-native-paper';
 import NetworkToast from './src/components/Network/NetworkToast';
+import { ScrollProvider } from './src/context/ScrollContext';
 
 // Masque le warning de SafeAreaView
 LogBox.ignoreLogs(['SafeAreaView has been deprecated']);
@@ -117,9 +118,11 @@ const App: React.FC = () => {
         <AuthProvider>
           <ProductProvider>
             <UserProvider>
-              <AppNavigator />
-                <NetworkToast  /> 
-              <Toast />
+              <ScrollProvider>
+                <AppNavigator />
+                <NetworkToast />
+                <Toast />
+              </ScrollProvider>
 
               {/* Modal de progression des mises à jour */}
               <Modal

@@ -1,11 +1,5 @@
 import React, { useContext, useState, useCallback, useMemo } from 'react';
-import {
-  StatusBar,
-  RefreshControl,
-  View,
-  TouchableOpacity,
-  Text,
-} from 'react-native';
+import { StatusBar, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlashList } from '@shopify/flash-list';
 import { ProductContext } from '../context/ProductContext';
@@ -14,9 +8,8 @@ import ProductListHeader from '../components/products/ProductListHeader';
 import ProductListFooter from '../components/products/ProductListFooter';
 import ProductRowItem from '../components/products/ProductRowItem';
 import FilterModalForm from '../components/FilterModalForm';
-import NetworkToast from '../components/Network/NetworkToast';
 import { useScroll } from '../context/ScrollContext';
-import { runOnJS, useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
+import { useTabBarAnimation } from '../hooks/useTabBarAnimation';
 
 export default function HomeScreen() {
   const {
@@ -31,9 +24,10 @@ export default function HomeScreen() {
   } = useContext(ProductContext);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [isselectfilterDonation, setIsSelectfilterDonation] =useState<string>('all');
+  const [isselectfilterDonation, setIsSelectfilterDonation] =
+    useState<string>('all');
   const [refreshing, setRefreshing] = useState(false);
-     const { setIsTabVisible } = useScroll();
+  const { setIsTabVisible } = useScroll();
 
   /*  const [testStatus, setTestStatus] = useState<boolean | undefined>(undefined); */
 
@@ -53,31 +47,6 @@ export default function HomeScreen() {
     },
     [fetchFilteredProductsDonation],
   );
-
-
-
-
-
-/*   animation de dispation nle customtabbar*/  
-
-  const scrollY = useSharedValue(0);
-  const lastScrollY = useSharedValue(0);
-
-  const scrollHandler = useAnimatedScrollHandler({
-    onScroll: (event) => {
-      const currentY = event.contentOffset.y;
-
-      if (currentY > lastScrollY.value + 5) {
-        runOnJS(setIsTabVisible)(false);
-      } else if (currentY < lastScrollY.value - 5) {
-        runOnJS(setIsTabVisible)(true);
-      }
-
-      lastScrollY.value = currentY;
-      scrollY.value = currentY;
-    },
-  });
-
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
@@ -141,6 +110,8 @@ export default function HomeScreen() {
     [allProducts, getRowType, getMarginTop, shouldShowPourVous],
   );
 
+  const handleScroll = useTabBarAnimation();
+
   return (
     <SafeAreaView className="flex-1 bg-white font-jakarta">
       <StatusBar hidden={false} translucent backgroundColor="transparent" />
@@ -184,6 +155,8 @@ export default function HomeScreen() {
         maxToRenderPerBatch={10}
         updateCellsBatchingPeriod={50}
         windowSize={5}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
       />
 
       <FilterModalForm
