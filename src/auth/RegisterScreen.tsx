@@ -9,27 +9,35 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Platform,
+  ActivityIndicator,
 } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { AuthContext } from '../context/AuthContext';
 import { stylebtn, textinput } from '../styles/Styles';
-import { EyeIcon , EyeSlashIcon } from 'phosphor-react-native';
+import { EyeIcon, EyeSlashIcon } from 'phosphor-react-native';
+import Toast from 'react-native-toast-message';
 
 interface RegisterFormData {
-  first_name: string;  // prénom
-  last_name: string;   // nom
+  first_name: string; // prénom
+  last_name: string; // nom
   email: string;
   password: string;
-  confirmPassword: string; // uniquement pour validation front
+  confirmPassword: string;
 }
 
 const ValidationSchema = yup.object({
   first_name: yup.string().required('Veuillez entrer votre prénom'),
   last_name: yup.string().required('Veuillez entrer votre nom'),
-  email: yup.string().email('Email invalide').required('Veuillez entrer votre email'),
-  password: yup.string().min(6, 'Au moins 6 caractères').required('Mot de passe requis'),
+  email: yup
+    .string()
+    .email('Email invalide')
+    .required('Veuillez entrer votre email'),
+  password: yup
+    .string()
+    .min(6, 'Au moins 6 caractères')
+    .required('Mot de passe requis'),
   confirmPassword: yup
     .string()
     .oneOf([yup.ref('password')], 'Les mots de passe doivent correspondre')
@@ -37,13 +45,19 @@ const ValidationSchema = yup.object({
 });
 
 const RegisterScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
-  const { register: registerUser } = useContext(AuthContext);
+  const { register: registerUser, loading } = useContext(AuthContext);
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
-  const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm<RegisterFormData>({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    reset,
+  } = useForm<RegisterFormData>({
     resolver: yupResolver(ValidationSchema),
   });
 
@@ -56,16 +70,22 @@ const RegisterScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
         email: data.email,
         password: data.password,
       };
-      await registerUser(registerdataalefa); // envoi au backend Django
+      await registerUser(registerdataalefa);
       reset();
-      navigation.replace("Login");
+      Toast.show({
+        type: 'success',
+        text1: 'Création de compte réussie 🎉',
+        visibilityTime: 3000,
+        position: 'top',
+      });
+      navigation.replace('Login');
     } catch (error: any) {
       console.log("Erreur lors de l'inscription :", error);
       setServerError(
         error.response?.data?.email?.[0] ||
-        error.response?.data?.password?.[0] ||
-        error.response?.data?.detail ||
-        "Erreur inconnue"
+          error.response?.data?.password?.[0] ||
+          error.response?.data?.detail ||
+          'Erreur inconnue',
       );
     }
   };
@@ -93,34 +113,52 @@ const RegisterScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
               />
             </View>
 
-            <Text className="text-4xl font-bold mb-8 text-center">S’inscrire</Text>
+            <Text className="text-4xl font-bold mb-8 text-center">
+              S’inscrire
+            </Text>
 
-            {serverError && <Text className="text-sm text-red-500 mb-3 text-center">{serverError}</Text>}
-
-          
+            {serverError && (
+              <Text className="text-sm text-red-500 mb-3 text-center">
+                {serverError}
+              </Text>
+            )}
 
             {/* Nom */}
             <View className="mb-4">
               <TextInput
                 placeholder="Nom"
                 placeholderTextColor="#6B7280"
-                className={`${textinput} ${errors.last_name ? 'border-red-400' : 'border-gray-200'}`}
+                className={`${textinput} ${
+                  errors.last_name ? 'border-red-400' : 'border-gray-200'
+                }`}
                 onChangeText={text => setValue('last_name', text)}
                 {...register('last_name')}
+                editable={!loading}
               />
-              {errors.last_name && <Text className="text-sm text-red-400 mt-1">{errors.last_name.message}</Text>}
+              {errors.last_name && (
+                <Text className="text-sm text-red-400 mt-1">
+                  {errors.last_name.message}
+                </Text>
+              )}
             </View>
 
-              {/* Prénom */}
+            {/* Prénom */}
             <View className="mb-4">
               <TextInput
                 placeholder="Prénom"
                 placeholderTextColor="#6B7280"
-                className={`${textinput} ${errors.first_name ? 'border-red-400' : 'border-gray-200'}`}
+                className={`${textinput} ${
+                  errors.first_name ? 'border-red-400' : 'border-gray-200'
+                }`}
                 onChangeText={text => setValue('first_name', text)}
                 {...register('first_name')}
+                editable={!loading}
               />
-              {errors.first_name && <Text className="text-sm text-red-400 mt-1">{errors.first_name.message}</Text>}
+              {errors.first_name && (
+                <Text className="text-sm text-red-400 mt-1">
+                  {errors.first_name.message}
+                </Text>
+              )}
             </View>
 
             {/* Email */}
@@ -129,11 +167,18 @@ const RegisterScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                 placeholder="Email"
                 placeholderTextColor="#6B7280"
                 autoCapitalize="none"
-                className={`${textinput} ${errors.email ? 'border-red-400' : 'border-gray-200'}`}
+                className={`${textinput} ${
+                  errors.email ? 'border-red-400' : 'border-gray-200'
+                }`}
                 onChangeText={text => setValue('email', text)}
                 {...register('email')}
+                editable={!loading}
               />
-              {errors.email && <Text className="text-sm text-red-400 mt-1">{errors.email.message}</Text>}
+              {errors.email && (
+                <Text className="text-sm text-red-400 mt-1">
+                  {errors.email.message}
+                </Text>
+              )}
             </View>
 
             {/* Mot de passe */}
@@ -142,17 +187,28 @@ const RegisterScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                 placeholder="Mot de passe"
                 placeholderTextColor="#6B7280"
                 secureTextEntry={!showPassword}
-                className={`${textinput} pr-12 ${errors.password ? 'border-red-400' : 'border-gray-200'}`}
+                className={`${textinput} pr-12 ${
+                  errors.password ? 'border-red-400' : 'border-gray-200'
+                }`}
                 onChangeText={text => setValue('password', text)}
                 {...register('password')}
+                editable={!loading}
               />
               <TouchableOpacity
                 className="absolute right-4 top-3"
                 onPress={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <EyeSlashIcon size={24} /> : <EyeIcon size={24} />}
+                {showPassword ? (
+                  <EyeSlashIcon size={24} />
+                ) : (
+                  <EyeIcon size={24} />
+                )}
               </TouchableOpacity>
-              {errors.password && <Text className="text-sm text-red-400 mt-1">{errors.password.message}</Text>}
+              {errors.password && (
+                <Text className="text-sm text-red-400 mt-1">
+                  {errors.password.message}
+                </Text>
+              )}
             </View>
 
             {/* Confirmer mot de passe */}
@@ -161,21 +217,42 @@ const RegisterScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                 placeholder="Confirmer mot de passe"
                 placeholderTextColor="#6B7280"
                 secureTextEntry={!showConfirmPassword}
-                className={`${textinput} pr-12 ${errors.confirmPassword ? 'border-red-400' : 'border-gray-200'}`}
+                className={`${textinput} pr-12 ${
+                  errors.confirmPassword ? 'border-red-400' : 'border-gray-200'
+                }`}
                 onChangeText={text => setValue('confirmPassword', text)}
                 {...register('confirmPassword')}
+                editable={!loading}
               />
               <TouchableOpacity
                 className="absolute right-4 top-3"
                 onPress={() => setShowConfirmPassword(!showConfirmPassword)}
               >
-                {showConfirmPassword ? <EyeSlashIcon size={24} /> : <EyeIcon size={24} />}
+                {showConfirmPassword ? (
+                  <EyeSlashIcon size={24} />
+                ) : (
+                  <EyeIcon size={24} />
+                )}
               </TouchableOpacity>
-              {errors.confirmPassword && <Text className="text-sm text-red-400 mt-1">{errors.confirmPassword.message}</Text>}
+              {errors.confirmPassword && (
+                <Text className="text-sm text-red-400 mt-1">
+                  {errors.confirmPassword.message}
+                </Text>
+              )}
             </View>
 
-            <TouchableOpacity className={stylebtn} onPress={handleSubmit(onSubmit)}>
-              <Text className="text-center font-bold text-lg">S’inscrire</Text>
+            <TouchableOpacity
+              className={stylebtn}
+              onPress={handleSubmit(onSubmit)}
+              disabled={loading}
+            >
+              {loading ? (
+                <ActivityIndicator size="small" color="#fff" />
+              ) : (
+                <Text className="text-center font-bold text-lg text-black">
+                  Se connecter
+                </Text>
+              )}
             </TouchableOpacity>
 
             <View className="flex-row justify-center gap-5 mt-10">
@@ -197,8 +274,13 @@ const RegisterScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
               </TouchableOpacity>
             </View>
 
-            <TouchableOpacity className="mt-6" onPress={() => navigation.replace('Login')}>
-              <Text className="text-center font-bold text-colortextbtn mb-5">Se connecter</Text>
+            <TouchableOpacity
+              className="mt-6"
+              onPress={() => navigation.replace('Login')}
+            >
+              <Text className="text-center font-bold text-colortextbtn mb-5">
+                Se connecter
+              </Text>
             </TouchableOpacity>
           </View>
         </ScrollView>

@@ -18,6 +18,7 @@ import * as yup from 'yup';
 import { AuthContext } from '../context/AuthContext';
 import { stylebtn, textinput } from '../styles/Styles';
 import { EyeIcon, EyeSlashIcon } from 'phosphor-react-native';
+import Toast from 'react-native-toast-message';
 
 interface LoginFormData {
   email: string;
@@ -29,15 +30,26 @@ interface LoginScreenProps {
 }
 
 const ValidationSchema = yup.object({
-  email: yup.string().email('Email invalide').required('Veuillez entrer votre email'),
-  password: yup.string().min(6, 'Au moins 6 caractères').required('Mot de passe requis'),
+  email: yup
+    .string()
+    .email('Email invalide')
+    .required('Veuillez entrer votre email'),
+  password: yup
+    .string()
+    .min(6, 'Au moins 6 caractères')
+    .required('Mot de passe requis'),
 });
 
 const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const { login, loginWithGoogle, loading } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
 
-  const { control, handleSubmit, formState: { errors }, reset } = useForm<LoginFormData>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<LoginFormData>({
     resolver: yupResolver(ValidationSchema),
   });
 
@@ -46,16 +58,25 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     const success = await login(data.email, data.password);
     if (success) {
       reset();
-      Alert.alert('Succès', 'Connexion réussie ! 🎉');
+     /*  Alert.alert('Succès', 'Connexion réussie ! 🎉'); */
     } else {
-      Alert.alert('Erreur', 'Identifiants invalides');
+      Toast.show({
+        type: 'error',
+        text1: 'Erreur',
+        text2: 'Veuillez vérifier vos informations et réessayer.',
+        visibilityTime: 4000,
+        position: 'top',
+      });
     }
   };
 
   // Connexion avec Google
   const handleGoogleSignIn = async () => {
     const success = await loginWithGoogle();
-    console.log('Succès', 'handleGoogleSignIn 3 Connexion avec Google réussie ! 🎉');
+    console.log(
+      'Succès',
+      'handleGoogleSignIn 3 Connexion avec Google réussie ! 🎉',
+    );
 
     if (success) {
       Alert.alert('Succès', 'Connexion avec Google réussie ! 🎉');
@@ -87,7 +108,9 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
               />
             </View>
 
-            <Text className="text-4xl font-bold mb-4 text-center">Tongasoa !</Text>
+            <Text className="text-4xl font-bold mb-4 text-center">
+              Tongasoa !
+            </Text>
             <Text className="text-xl mb-8 text-center">
               Nous vous souhaitons la bienvenue sur notre plateforme i-Takalo
             </Text>
@@ -101,7 +124,9 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                   <TextInput
                     placeholder="Votre e-mail"
                     placeholderTextColor="#6B7280"
-                    className={`${textinput} ${errors.email ? 'border-red-400' : 'border-gray-200'}`}
+                    className={`${textinput} ${
+                      errors.email ? 'border-red-400' : 'border-gray-200'
+                    }`}
                     autoCapitalize="none"
                     value={value}
                     onChangeText={onChange}
@@ -109,7 +134,11 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                   />
                 )}
               />
-              {errors.email && <Text className="text-sm text-red-400 mt-1">{errors.email.message}</Text>}
+              {errors.email && (
+                <Text className="text-sm text-red-400 mt-1">
+                  {errors.email.message}
+                </Text>
+              )}
             </View>
 
             <View className="mb-4 relative">
@@ -121,7 +150,9 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                     placeholder="Mot de passe"
                     placeholderTextColor="#6B7280"
                     secureTextEntry={!showPassword}
-                    className={`${textinput} pr-12 ${errors.password ? 'border-red-400' : 'border-gray-200'}`}
+                    className={`${textinput} pr-12 ${
+                      errors.password ? 'border-red-400' : 'border-gray-200'
+                    }`}
                     value={value}
                     onChangeText={onChange}
                     editable={!loading}
@@ -132,17 +163,31 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                 className="absolute right-4 top-3"
                 onPress={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <EyeSlashIcon size={24} /> : <EyeIcon size={24} />}
+                {showPassword ? (
+                  <EyeSlashIcon size={24} />
+                ) : (
+                  <EyeIcon size={24} />
+                )}
               </TouchableOpacity>
-              {errors.password && <Text className="text-sm text-red-400 mt-1">{errors.password.message}</Text>}
+              {errors.password && (
+                <Text className="text-sm text-red-400 mt-1">
+                  {errors.password.message}
+                </Text>
+              )}
             </View>
 
             {/* Bouton Se connecter */}
-            <TouchableOpacity className={stylebtn} onPress={handleSubmit(onSubmit)} disabled={loading}>
+            <TouchableOpacity
+              className={stylebtn}
+              onPress={handleSubmit(onSubmit)}
+              disabled={loading}
+            >
               {loading ? (
                 <ActivityIndicator size="small" color="#fff" />
               ) : (
-                <Text className="text-center font-bold text-lg text-white">Se connecter</Text>
+                <Text className="text-center font-bold text-lg text-black">
+                  Se connecter
+                </Text>
               )}
             </TouchableOpacity>
 
@@ -186,8 +231,13 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
             </View>
 
             {/* Bouton S'inscrire */}
-            <TouchableOpacity className="mt-6" onPress={() => navigation.navigate('Register')}>
-              <Text className="text-center font-bold text-colortextbtn mb-5">S'inscrire</Text>
+            <TouchableOpacity
+              className="mt-6"
+              onPress={() => navigation.navigate('Register')}
+            >
+              <Text className="text-center font-bold text-colortextbtn mb-5">
+                S'inscrire
+              </Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
