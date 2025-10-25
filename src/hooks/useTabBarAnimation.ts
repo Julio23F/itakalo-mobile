@@ -2,10 +2,6 @@ import { useRef, useCallback } from 'react';
 import { LayoutAnimation, Platform, UIManager } from 'react-native';
 import { useScroll } from '../context/ScrollContext';
 
-// Activer LayoutAnimation sur Android
-if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
-}
 
 export const useTabBarAnimation = () => {
     const { setIsTabVisible } = useScroll();
