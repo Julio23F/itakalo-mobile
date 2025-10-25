@@ -31,6 +31,7 @@ const CustomTabBar2: React.FC<Props> = ({ state, descriptors, navigation }) => {
     ],
     opacity: withTiming(isTabVisible ? 1 : 0, { duration: 500 }),
   }));
+  
   const hiddenRoutes = [
     'Search',
     'Product',
