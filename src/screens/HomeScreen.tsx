@@ -15,6 +15,8 @@ import ProductListFooter from '../components/products/ProductListFooter';
 import ProductRowItem from '../components/products/ProductRowItem';
 import FilterModalForm from '../components/FilterModalForm';
 import NetworkToast from '../components/Network/NetworkToast';
+import { useScroll } from '../context/ScrollContext';
+import { runOnJS, useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
 
 export default function HomeScreen() {
   const {
@@ -29,9 +31,10 @@ export default function HomeScreen() {
   } = useContext(ProductContext);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [isselectfilterDonation, setIsSelectfilterDonation] =
-    useState<string>('all');
+  const [isselectfilterDonation, setIsSelectfilterDonation] =useState<string>('all');
   const [refreshing, setRefreshing] = useState(false);
+     const { setIsTabVisible } = useScroll();
+
   /*  const [testStatus, setTestStatus] = useState<boolean | undefined>(undefined); */
 
   // Hook personnalisé pour la logique de layout
@@ -50,6 +53,31 @@ export default function HomeScreen() {
     },
     [fetchFilteredProductsDonation],
   );
+
+
+
+
+
+/*   animation de dispation nle customtabbar*/  
+
+  const scrollY = useSharedValue(0);
+  const lastScrollY = useSharedValue(0);
+
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      const currentY = event.contentOffset.y;
+
+      if (currentY > lastScrollY.value + 5) {
+        runOnJS(setIsTabVisible)(false);
+      } else if (currentY < lastScrollY.value - 5) {
+        runOnJS(setIsTabVisible)(true);
+      }
+
+      lastScrollY.value = currentY;
+      scrollY.value = currentY;
+    },
+  });
+
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
