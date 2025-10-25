@@ -24,7 +24,6 @@ import { ScrollProvider } from './src/context/ScrollContext';
 
 // Masque le warning de SafeAreaView
 LogBox.ignoreLogs(['SafeAreaView has been deprecated']);
-
 const App: React.FC = () => {
   const [syncStatus, setSyncStatus] = useState<string>('');
   const [downloadProgress, setDownloadProgress] = useState<{
