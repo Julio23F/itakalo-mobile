@@ -1,7 +1,7 @@
 import { View, Text, Image } from 'react-native';
 import React, { useContext } from 'react';
 import { UserIcon, HeartIcon, CheckCircleIcon } from 'phosphor-react-native'; 
-import { AuthContext } from '../../context/AuthContext'; 
+import { AuthContext } from '../../../context/AuthContext'; 
 
 const PROGRESS_DATA = {
     totalLikes: '1,2 K', 

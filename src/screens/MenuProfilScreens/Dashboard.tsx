@@ -12,8 +12,9 @@ import { useNavigation } from '@react-navigation/native';
 import NavigationDash from '../../components/Dashboard/NavigationDash';
 import { tabsNavigationDash } from '../../data/CardDashData';
 
-import HomeDash from '../../components/Dashboard/HomeDash';
-import InteractionsDash from '../../components/Dashboard/InteractionsDash';
+import HomeDash from '../../components/Dashboard/homedash/HomeDash';
+import InteractionsDash from '../../components/Dashboard/interactiondash/InteractionsDash';
+import ProgressionDash from '../../components/Dashboard/progressiondash/ProgressionDash';
 
 export default function Dashboard() {
   const navigation = useNavigation();
@@ -24,6 +25,8 @@ export default function Dashboard() {
         return <HomeDash />;
       case 'interactions':
         return <InteractionsDash />;
+      case 'progress':
+        return <ProgressionDash />;
       default:
         return (
           <View className="flex-1 justify-center items-center">
@@ -59,7 +62,7 @@ export default function Dashboard() {
           setSelectedTab={setSelectedTab}
         />
       </View>
-      <View className="flex-1 px-3">{renderContent()}</View>{' '}
+      <View className="flex-1 px-3 mt-4">{renderContent()}</View>
     </SafeAreaView>
   );
 }

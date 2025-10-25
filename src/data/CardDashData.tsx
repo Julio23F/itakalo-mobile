@@ -42,7 +42,6 @@ export const CardDashData = [
 
 export const tabsNavigationDash = [
   {  value: 'home',  label: 'Accueil',  icon: HouseLineIcon },
-  {  value: 'stats',  label: 'Statistiques',  icon: ChartBarIcon },
   {  value: 'interactions',  label: 'Interactions',  icon: UsersIcon },
   {  value: 'progress',  label: 'Progression',  icon: TrendUpIcon },
 ];
