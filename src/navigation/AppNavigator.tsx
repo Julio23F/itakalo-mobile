@@ -9,35 +9,35 @@ import { red } from 'react-native-reanimated/lib/typescript/Colors';
 import PreferencesScreen from '../screens/PreferencesScreen';
 import PreferencesScreen2 from '../screens/PreferencesScreen2';
 const AppNavigator = () => {
-  const { user , loadingtoken } = useContext(AuthContext);
-  const [isLoading, setIsLoading] = useState(true); 
+  const { user, loadingtoken } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    
+/*   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 4500); 
+    }, 4500);
 
     return () => clearTimeout(timer);
   }, []);
 
   if (isLoading) {
-     return <SplashScreen />; 
- /* return<PreferencesScreen/>  */}
+    return <SplashScreen />;
+    //return<PreferencesScreen/>  
+  } */
 
+  if (loadingtoken) {
+    return <SplashScreen />;
+  }
 
-
-if (loadingtoken) {
-    return (
-      <View className=' flex-1 bg-[#FEF094] justify-center items-center'>
+  {
+    /* <View className=' flex-1 bg-[#FEF094] justify-center items-center'>
         <ActivityIndicator size="large" color={"white"} />
-      </View>
-    );
+      </View> */
   }
   return (
     /*     mila averina avadika aveo
      */ <NavigationContainer>
-      {user ? <MainNavigator  /> : <AuthNavigator /> }
+      {user ? <MainNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   );
 };
