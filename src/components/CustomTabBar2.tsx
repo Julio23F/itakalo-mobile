@@ -1,7 +1,18 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { HouseIcon, ChatIcon, BellIcon, UserIcon, PlusIcon } from 'phosphor-react-native';
+import {
+  HouseIcon,
+  ChatIcon,
+  BellIcon,
+  UserIcon,
+  PlusIcon,
+} from 'phosphor-react-native';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import { useScroll } from '../context/ScrollContext';
+import Animated, {
+  useAnimatedStyle,
+  withTiming,
+} from 'react-native-reanimated';
 
 interface Props {
   state: any;
@@ -13,7 +24,13 @@ const CustomTabBar2: React.FC<Props> = ({ state, descriptors, navigation }) => {
   const route = state.routes[state.index];
   const routeName = getFocusedRouteNameFromRoute(route) ?? route.name;
 
- 
+  const { isTabVisible } = useScroll();
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      { translateY: withTiming(isTabVisible ? 0 : 100, { duration: 500 }) },
+    ],
+    opacity: withTiming(isTabVisible ? 1 : 0, { duration: 500 }),
+  }));
   const hiddenRoutes = [
     'Search',
     'Product',
@@ -26,7 +43,7 @@ const CustomTabBar2: React.FC<Props> = ({ state, descriptors, navigation }) => {
     'TrueProfilUserAccess',
     'Notification',
     'MessageMain',
-    'Chat'
+    'Chat',
   ];
   if (hiddenRoutes.includes(routeName)) return null;
 
@@ -34,7 +51,7 @@ const CustomTabBar2: React.FC<Props> = ({ state, descriptors, navigation }) => {
   const inactiveColor = '#212529';
 
   return (
-    <View style={styles.container}>
+    <Animated.View style={[styles.container, animatedStyle]}>
       {state.routes.map((route: any, index: number) => {
         const { options } = descriptors[route.key];
         const label = options.tabBarLabel ?? options.title ?? route.name;
@@ -53,17 +70,48 @@ const CustomTabBar2: React.FC<Props> = ({ state, descriptors, navigation }) => {
         const renderIcon = () => {
           switch (label) {
             case 'Accueil':
-              return <HouseIcon size={24} color={isFocused ? activeColor : inactiveColor} />;
+              return (
+                <HouseIcon
+                  size={24}
+                  color={isFocused ? activeColor : inactiveColor}
+                />
+              );
             case 'Message':
-              return <ChatIcon size={24} color={isFocused ? activeColor : inactiveColor} />;
+              return (
+                <ChatIcon
+                  size={24}
+                  color={isFocused ? activeColor : inactiveColor}
+                />
+              );
             case 'Notification':
-              return <BellIcon size={24} color={isFocused ? activeColor : inactiveColor} />;
+              return (
+                <BellIcon
+                  size={24}
+                  color={isFocused ? activeColor : inactiveColor}
+                />
+              );
             case 'Profile':
-              return <UserIcon size={24} color={isFocused ? activeColor : inactiveColor} />;
+              return (
+                <UserIcon
+                  size={24}
+                  color={isFocused ? activeColor : inactiveColor}
+                />
+              );
             case 'Sell':
               return (
-                <View className='rounded-full' style={{backgroundColor:"#03233A", padding: 12, marginBottom: "-20"}}>
-                  <PlusIcon size={24} color={isFocused ? activeColor : "#fff"} />;
+                <View
+                  className="rounded-full"
+                  style={{
+                    backgroundColor: '#03233A',
+                    padding: 12,
+                    marginBottom: '-20',
+                  }}
+                >
+                  <PlusIcon
+                    size={24}
+                    color={isFocused ? activeColor : '#fff'}
+                  />
+                  ;
                 </View>
               );
             default:
@@ -79,13 +127,18 @@ const CustomTabBar2: React.FC<Props> = ({ state, descriptors, navigation }) => {
             activeOpacity={0.7}
           >
             {renderIcon()}
-            <Text style={{ color: isFocused ? activeColor : inactiveColor, fontSize: 12 }}>
-              {label !== "Sell" && label}
+            <Text
+              style={{
+                color: isFocused ? activeColor : inactiveColor,
+                fontSize: 12,
+              }}
+            >
+              {label !== 'Sell' && label}
             </Text>
           </TouchableOpacity>
         );
       })}
-    </View>
+    </Animated.View>
   );
 };
 
