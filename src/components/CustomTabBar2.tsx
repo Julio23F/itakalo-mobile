@@ -48,7 +48,8 @@ const CustomTabBar2: React.FC<Props> = ({ state, descriptors, navigation }) => {
     'MessageMain',
     'Chat',
     'FavoriteProduct',
-    'Dashboard'
+    'Dashboard',
+    'KYCVerificationcreen'
   ];
   if (hiddenRoutes.includes(routeName)) return null;
 

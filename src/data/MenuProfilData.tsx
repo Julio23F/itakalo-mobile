@@ -1,4 +1,4 @@
-import { IconProps, MagnifyingGlassIcon, InfoIcon, ChartLineIcon, HeartIcon, FileTextIcon} from 'phosphor-react-native';
+import { IconProps, MagnifyingGlassIcon, InfoIcon, ChartLineIcon, HeartIcon, FileTextIcon, ShieldCheckIcon} from 'phosphor-react-native';
 import { NavigationProp } from '@react-navigation/native';
 import { RootStackParamListProfilnavigatorScreen } from '../types/Types';
 import React from 'react';
@@ -44,4 +44,10 @@ export const otherMenuItems: MenuItemData[] = [
     icon: <InfoIcon size={24} color="#03233A" />,
     onPress: (navigation) => navigation.navigate('About'),
   },
+  {
+  id: '6',
+  title: 'Vérification KYC',
+  icon: <ShieldCheckIcon size={24} color="#03233A" />,
+  onPress: (navigation) => navigation.navigate('KYCVerificationcreen'),
+}
 ];

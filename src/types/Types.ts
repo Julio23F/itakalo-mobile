@@ -22,6 +22,7 @@ export type RootStackParamListProfilnavigatorScreen = {
   ConditionToUse: undefined;
   About: undefined;
   Product: { item: ProductDataI };
+  KYCVerificationcreen: undefined;
 };
 
 // Types hoan  MainNavigatorTab
