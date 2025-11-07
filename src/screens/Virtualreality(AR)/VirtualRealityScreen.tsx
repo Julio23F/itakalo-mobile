@@ -1,32 +1,40 @@
+import React, { useState } from "react";
 import {
   ViroARScene,
   ViroARSceneNavigator,
-  ViroText,
+  Viro3DObject,
+  ViroAmbientLight,
   ViroTrackingReason,
   ViroTrackingStateConstants,
 } from "@reactvision/react-viro";
-import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 
-const VirtualRealityScreen = () => {
-  const [text, setText] = useState("Initializing AR...");
+const HelloWorldSceneAR = () => {
+  const [text, setText] = useState("Déplace ton téléphone pour scanner la surface...");
 
-  function onInitialized(state: any, reason: ViroTrackingReason) {
+  function onInitialized(state: ViroTrackingStateConstants, reason: any) {
     console.log("onInitialized", state, reason);
     if (state === ViroTrackingStateConstants.TRACKING_NORMAL) {
-      setText("Hello World!");
+      setText("Objet chargé !");
     } else if (state === ViroTrackingStateConstants.TRACKING_UNAVAILABLE) {
-      // Handle loss of tracking
+      setText("Perte de suivi AR...");
     }
   }
 
   return (
     <ViroARScene onTrackingUpdated={onInitialized}>
-      <ViroText
-        text={text}
-        scale={[0.5, 0.5, 0.5]}
-        position={[0, 0, -1]}
-        style={styles.helloWorldTextStyle}
+      {/* Lumière ambiante pour bien éclairer l’objet */}
+      <ViroAmbientLight color="#FFFFFF" intensity={500} />
+
+      {/* Ton objet 3D */}
+      <Viro3DObject
+        source={require("../../Object3D/test3.glb")}
+        type="GLB"
+        position={[0, 0, -1]} // à 1 mètre devant la caméra
+        scale={[0.1, 0.1, 0.1]} // adapte la taille selon ton modèle
+        rotation={[0, 0, 0]} // tu peux ajuster ici l'angle
+        dragType="FixedToWorld"
+        onDrag={() => {}}
       />
     </ViroARScene>
   );
@@ -37,20 +45,13 @@ export default () => {
     <ViroARSceneNavigator
       autofocus={true}
       initialScene={{
-        scene: VirtualRealityScreen,
+        scene: HelloWorldSceneAR,
       }}
       style={styles.f1}
     />
   );
 };
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   f1: { flex: 1 },
-  helloWorldTextStyle: {
-    fontFamily: "Arial",
-    fontSize: 30,
-    color: "#ffffff",
-    textAlignVertical: "center",
-    textAlign: "center",
-  },
 });
