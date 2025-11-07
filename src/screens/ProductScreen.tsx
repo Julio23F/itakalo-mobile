@@ -36,7 +36,7 @@ import { AuthContext } from '../context/AuthContext';
 import { UserContext, UserI } from '../context/UserContext';
 import PopUpProduct from '../components/popup/PopUpProduct';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamListChatnavigatorScreen } from '../types/Types';
+import { RootStackParamListChatnavigatorScreen, RootStackParamListHomenavigatorScreen, RootStackParamListProfilnavigatorScreen } from '../types/Types';
 import Carousel from 'react-native-reanimated-carousel';
 import ProductScreenSkeleton from '../components/Skeleton/ProductScreenSkeleton';
 
@@ -51,9 +51,13 @@ type ChatNavigationProp = NativeStackNavigationProp<
   RootStackParamListChatnavigatorScreen,
   'Chat'
 >;
+type ArNavigationProp = NativeStackNavigationProp<
+  RootStackParamListHomenavigatorScreen
+>;
 
 export default function ProductScreen() {
   const navigation = useNavigation<ChatNavigationProp>();
+  const navigation2 = useNavigation<ArNavigationProp>();
   const route = useRoute<ProductScreenRouteProp>();
 
   const initialItem = route.params.item;
@@ -130,6 +134,7 @@ const isLiked = user && Array.isArray(item.likes) && item.likes.includes(user.id
       'Activation de la réalité augmentée pour le produit :',
       item.title,
     );
+   navigation2.navigate('AR');
   };
 
   const toggleDescription = () => setShowFullDescription(!showFullDescription);
@@ -190,6 +195,8 @@ const isLiked = user && Array.isArray(item.likes) && item.likes.includes(user.id
 
   setIsLiking(false);
 };
+
+
 
   return (
     <SafeAreaView className="flex-1 bg-white">

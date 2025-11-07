@@ -5,6 +5,8 @@ export type RootStackParamListHomenavigatorScreen = {
   AccueilMain: undefined;
   Search: undefined;
   Product: { item: ProductDataI };
+  AR:undefined
+
 };
 
 export type RootStackParamListChatnavigatorScreen = {

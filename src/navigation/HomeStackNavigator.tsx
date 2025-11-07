@@ -7,6 +7,8 @@ import ProductScreen from '../screens/ProductScreen';
 import ConversationScreen from '../screens/ConversationScreen';
 import Chat from '../screens/chat';
 import ValidationTransactionScreen from '../screens/ValidationTransactionScreen';
+import VirtualRealityScreen from '../screens/Virtualreality(AR)/VirtualRealityScreen';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +20,7 @@ export default function HomeStackNavigator() {
       <Stack.Screen name="Product" component={ProductScreen} />
       <Stack.Screen name="Chat" component={Chat} />
       <Stack.Screen name="ValidationTransaction" component={ValidationTransactionScreen} />
+      <Stack.Screen name="AR" component={VirtualRealityScreen} />
 
     </Stack.Navigator>
   );

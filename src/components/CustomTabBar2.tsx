@@ -26,7 +26,8 @@ const CustomTabBar2: React.FC<Props> = ({ state, descriptors, navigation }) => {
     'TrueProfilUserAccess',
     'Notification',
     'MessageMain',
-    'Chat'
+    'Chat',
+    'AR'
   ];
   if (hiddenRoutes.includes(routeName)) return null;
 
