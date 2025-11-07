@@ -4,7 +4,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react';
 import { AuthProvider } from './src/context/AuthContext';
 import AppNavigator from './src/navigation/AppNavigator';
-// import './global.css'; // NativeWind
+ import './global.css'; 
 import { LogBox, View, Text, StyleSheet, Modal, ActivityIndicator } from 'react-native';
 import { ProductProvider } from './src/context/ProductContext';
 import { UserProvider } from './src/context/UserContext';
