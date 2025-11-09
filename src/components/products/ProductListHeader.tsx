@@ -11,17 +11,17 @@ const { width } = Dimensions.get('window');
 interface ProductListHeaderProps {
   loading: boolean;
   echangeProducts: ProductDataI[];
-  isselectfilterDonation: string;
+  isselectfilterEchange: string;
   onFilterPress: () => void;
-  onApplyFiltersBarDonation: (filters: any) => void;
+  onApplyFiltersBarEchange: (filters: any) => void;
 }
 
 const ProductListHeader = memo(({
   loading,
   echangeProducts,
-  isselectfilterDonation,
+  isselectfilterEchange,
   onFilterPress,
-  onApplyFiltersBarDonation,
+  onApplyFiltersBarEchange,
 }: ProductListHeaderProps) => {
   return (
     <>
@@ -35,8 +35,8 @@ const ProductListHeader = memo(({
 
       <View className="mb-4 px-2">
         <FilterBarDons
-          isselectfilterDonation={isselectfilterDonation}
-          onApplyFilters={onApplyFiltersBarDonation}
+          isselectfilterEchange={isselectfilterEchange}
+          onApplyFilters={onApplyFiltersBarEchange}
         />
       </View>
 

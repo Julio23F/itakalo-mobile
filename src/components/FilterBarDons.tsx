@@ -13,7 +13,7 @@ interface FilterButtonProps {
 
 interface FilterBarDonsProps {
   onApplyFilters: (filters: any) => void;
-  isselectfilterDonation: string;
+  isselectfilterEchange: string;
 }
 
 const FilterButton = ({ label, icon, active, onPress }: FilterButtonProps) => {
@@ -28,26 +28,11 @@ const FilterButton = ({ label, icon, active, onPress }: FilterButtonProps) => {
   );
 };
 
-export default function FilterBarDons({ onApplyFilters, isselectfilterDonation }: FilterBarDonsProps) {
-  const getFilterData = (value: string) => {
-   
+export default function FilterBarDons({ onApplyFilters, isselectfilterEchange }: FilterBarDonsProps) {
+ const getFilterData = (value: string) => ({
+  category: value === "all" ? "all" : value,
+});
 
-    const baseFilters = {
-      types: "ECHANGE",
-      category: "all",
-      genre: "all",
-      style: "all",
-      saison: "all",
-      minPrice: "",
-      maxPrice: "",
-    };
-
-    if (value === "all") {
-      return { ...baseFilters, types: "all" };
-    } else {
-      return { ...baseFilters, category: value };
-    }
-  };
 
   return (
     <View className="mt-4">
@@ -57,7 +42,7 @@ export default function FilterBarDons({ onApplyFilters, isselectfilterDonation }
             key={f.value}
             label={f.label}
             icon={f.icon}
-            active={isselectfilterDonation === f.value}
+            active={isselectfilterEchange === f.value}
             onPress={() => onApplyFilters(getFilterData(f.value))}
           />
         ))}

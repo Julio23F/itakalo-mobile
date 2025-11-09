@@ -24,7 +24,7 @@ export default function HomeScreen() {
   } = useContext(ProductContext);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [isselectfilterDonation, setIsSelectfilterDonation] =
+  const [isselectfilterEchange, setIsSelectfilterEchange] =
     useState<string>('all');
   const [refreshing, setRefreshing] = useState(false);
   const { setIsTabVisible } = useScroll();
@@ -39,18 +39,20 @@ export default function HomeScreen() {
     console.log('Filtres vente reçus par HomeScren:', filters);
   }, []);
 
-  const handleApplyFiltersBarDonation = useCallback(
-    (filters: any) => {
-      console.log('Filtres de donation reçus par HomeScren:', filters);
-      setIsSelectfilterDonation(filters.category);
-      fetchFilteredProductsDonation(filters);
-    },
-    [fetchFilteredProductsDonation],
-  );
+ const { fetchFilteredProductsEchange } = useContext(ProductContext);
+
+const handleApplyFiltersBarEchange = useCallback(
+  (filters: any) => {
+    setIsSelectfilterEchange(filters.category);
+    fetchFilteredProductsEchange(filters);
+  },
+  [fetchFilteredProductsEchange],
+);
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
     await fetchProducts();
+    setIsSelectfilterEchange("all"); 
     setRefreshing(false);
   }, [fetchProducts]);
 
@@ -64,16 +66,16 @@ export default function HomeScreen() {
       <ProductListHeader
         loading={loading}
         echangeProducts={echangeProducts}
-        isselectfilterDonation={isselectfilterDonation}
+        isselectfilterEchange={isselectfilterEchange}
         onFilterPress={handleFilterPress}
-        onApplyFiltersBarDonation={handleApplyFiltersBarDonation}
+        onApplyFiltersBarEchange={handleApplyFiltersBarEchange}
       />
     ),
     [
       loading,
       echangeProducts,
-      isselectfilterDonation,
-      handleApplyFiltersBarDonation,
+      isselectfilterEchange,
+      handleApplyFiltersBarEchange,
     ],
   );
 

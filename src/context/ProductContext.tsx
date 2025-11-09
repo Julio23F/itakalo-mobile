@@ -41,6 +41,7 @@ interface ProductContextType {
   fetchProducts: () => void;
   fetchMoreProducts: () => void;
   fetchFilteredProductsDonation: (filters: any) => void;
+  fetchFilteredProductsEchange: (filters: any) => void;
   addProduct: (newProduct: ProductDataI) => void;
   deleteProduct: (id: number) => void;
   fetchProductById: (id: number) => Promise<ProductDataI | undefined>;
@@ -59,6 +60,8 @@ export const ProductContext = createContext<ProductContextType>({
   fetchProducts: () => {},
   fetchMoreProducts: () => {},
   fetchFilteredProductsDonation: () => {},
+  fetchFilteredProductsEchange: () => {},
+  
   addProduct: () => {},
   deleteProduct: () => {},
   fetchProductById: async () => undefined,
@@ -208,6 +211,25 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const fetchFilteredProductsEchange = async (filters: any) => {
+  setLoading(true);
+  try {
+    const res = await API.get('/api/v1/products/', {
+      params: {
+        type: 'ECHANGE',
+        category: filters.category !== 'all' ? filters.category : undefined,
+      },
+    });
+    const fetchedProducts = res.data.dataset as ProductDataI[];
+    setEchangeProducts(fetchedProducts);
+  } catch (err) {
+    console.error('Erreur lors du filtrage des produits d’échange:', err);
+  } finally {
+    setLoading(false);
+  }
+};
+
+
   const addProduct = (newProduct: ProductDataI) => {
     if (newProduct.type === 'SALE') {
       setsaleProducts(prevProducts => [newProduct, ...prevProducts]);
@@ -295,6 +317,7 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({
         hasMore,
         currentPage,
         fetchFilteredProductsDonation,
+            fetchFilteredProductsEchange,
         fetchProducts,
         fetchMoreProducts,
         addProduct,
