@@ -33,7 +33,7 @@ export default function FilterBarDons({ onApplyFilters, isselectfilterDonation }
    
 
     const baseFilters = {
-      types: "DONATION",
+      types: "ECHANGE",
       category: "all",
       genre: "all",
       style: "all",

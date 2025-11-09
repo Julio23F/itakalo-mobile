@@ -10,6 +10,7 @@ import FavoriteProduct from '../screens/MenuProfilScreens/FavoriteProduct';
 import TrueProfilUserAccess from '../screens/MenuProfilScreens/TrueProfilUserAccess';
 import ProductAdScreen from '../screens/ProductAdScreen';
 import ProductScreen from '../screens/ProductScreen';
+import { KYCVerificationScreen } from '../screens/MenuProfilScreens/KYCVerificationScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,7 @@ export default function ProfilStackNavigator() {
       <Stack.Screen name="ConditionToUse" component={ConditionToUse} />
       <Stack.Screen name="About" component={About} />
       <Stack.Screen name="Product" component={ProductScreen} />
+      <Stack.Screen name="KYCVerificationcreen" component={KYCVerificationScreen} />
     </Stack.Navigator>
   );
 }

@@ -1,31 +1,30 @@
-
 export const confidentialityData = {
-  mainTitle: 'Politique de sécurité',
+  mainTitle: 'Politique de Confidentialité', // Changement : Plus standard que "Sécurité"
   sections: [
     {
-      title: 'Collecte et utilisation des informations',
+      title: '1. Collecte et utilisation des informations',
       content:
-        "iTakalo s'engage à protéger la vie privée de ses utilisateurs. Nous collectons les informations nécessaires pour fournir nos services, comme le nom, l'e-mail et les données de transaction. Ces informations sont utilisées uniquement pour améliorer votre expérience sur l'application et ne sont jamais vendues à des tiers.",
+        "iTakalo s'engage à protéger la vie privée de ses utilisateurs. Nous collectons les informations nécessaires pour fournir nos services (nom, e-mail, données de transaction) uniquement pour améliorer votre expérience. Vos données ne sont **jamais vendues** à des tiers.",
     },
     {
-      title: 'Sécurité des données',
+      title: '2. Sécurité des données',
       content:
-        'Nous mettons en œuvre des mesures de sécurité rigoureuses pour protéger vos informations personnelles contre tout accès, modification ou divulgation non autorisés. Cela inclut le cryptage des données de transaction et l\'utilisation de serveurs sécurisés.',
+        'Nous mettons en œuvre des mesures de sécurité rigoureuses, incluant le **cryptage avancé** des données de transaction et l\'utilisation de serveurs sécurisés, pour protéger vos informations personnelles contre tout accès ou divulgation non autorisé.',
     },
     {
-      title: 'Partage d\'informations',
+      title: '3. Partage d\'informations avec des tiers',
       content:
-        "Vos informations ne sont partagées avec des tiers que dans des cas strictement nécessaires, tels que les services de paiement pour les transactions, et toujours avec votre consentement explicite. Nous respectons la confidentialité de vos données à tout moment.",
+        "Vos informations sont partagées uniquement dans des cas strictement nécessaires (ex: services de paiement, obligations légales) et toujours avec votre **consentement explicite**. La confidentialité de vos données est notre priorité.",
     },
     {
-      title: 'Vos droits',
+      title: '4. Vos droits d\'utilisateur',
       content:
-        "En tant qu'utilisateur, vous avez le droit d'accéder, de modifier ou de supprimer vos informations personnelles. Vous pouvez exercer ces droits en nous contactant directement via les paramètres de l'application. Nous nous engageons à répondre à toutes vos demandes dans les plus brefs délais.",
+        "Vous disposez à tout moment du droit d'accéder, de modifier ou de supprimer vos informations personnelles. Vous pouvez exercer ces droits en nous contactant via l'application. Nous traiterons vos requêtes dans un délai maximal de 30 jours.",
     },
     {
-      title: 'Modifications de la politique',
+      title: '5. Modifications de la politique',
       content:
-        'Cette politique de sécurité peut être mise à jour de temps à autre. Nous vous informerons de toute modification significative par une notification sur l\'application ou par e-mail. Nous vous encourageons à consulter régulièrement cette page pour rester informé.',
+        'Cette politique est susceptible d\'être mise à jour. Nous vous informerons de toute modification significative par une notification dédiée sur l\'application ou par e-mail au moins 15 jours avant leur entrée en vigueur. ',
     },
   ],
 };
