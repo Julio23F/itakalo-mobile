@@ -52,7 +52,8 @@ const CustomTabBar2: React.FC<Props> = ({ state, descriptors, navigation }) => {
     'Dashboard',
     'KYCVerificationcreen',
     'About',
-    'ConditionToUse'
+    'ConditionToUse',
+    'ValidationTransaction'
   ];
   if (hiddenRoutes.includes(routeName)) return null;
 
