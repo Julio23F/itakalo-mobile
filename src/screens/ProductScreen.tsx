@@ -36,7 +36,11 @@ import { AuthContext } from '../context/AuthContext';
 import { UserContext, UserI } from '../context/UserContext';
 import PopUpProduct from '../components/popup/PopUpProduct';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamListChatnavigatorScreen, RootStackParamListHomenavigatorScreen, RootStackParamListProfilnavigatorScreen } from '../types/Types';
+import {
+  RootStackParamListChatnavigatorScreen,
+  RootStackParamListHomenavigatorScreen,
+  RootStackParamListProfilnavigatorScreen,
+} from '../types/Types';
 import Carousel from 'react-native-reanimated-carousel';
 import ProductScreenSkeleton from '../components/Skeleton/ProductScreenSkeleton';
 
@@ -51,9 +55,8 @@ type ChatNavigationProp = NativeStackNavigationProp<
   RootStackParamListChatnavigatorScreen,
   'Chat'
 >;
-type ArNavigationProp = NativeStackNavigationProp<
-  RootStackParamListHomenavigatorScreen
->;
+type ArNavigationProp =
+  NativeStackNavigationProp<RootStackParamListHomenavigatorScreen>;
 
 export default function ProductScreen() {
   const navigation = useNavigation<ChatNavigationProp>();
@@ -88,32 +91,32 @@ export default function ProductScreen() {
   //resaka like
   const { ToggleLike } = useContext(ProductContext);
   const [isLiking, setIsLiking] = useState(false);
-const isLiked = user && Array.isArray(item.likes) && item.likes.includes(user.id);
+  const isLiked =
+    user && Array.isArray(item.likes) && item.likes.includes(user.id);
 
   useEffect(() => {
-  const loadData = async () => {
-    setLoadingProduct(true);
-    const fullProduct = await fetchProductById(initialItem.id);
+    const loadData = async () => {
+      setLoadingProduct(true);
+      const fullProduct = await fetchProductById(initialItem.id);
 
-    if (fullProduct) {
-      setProductData(fullProduct);
-      setLoadingAuthor(true);
-      if (fullProduct.author === undefined || fullProduct.author === null) {
-        setAuthor(undefined);
-        setLoadingAuthor(false);
+      if (fullProduct) {
+        setProductData(fullProduct);
+        setLoadingAuthor(true);
+        if (fullProduct.author === undefined || fullProduct.author === null) {
+          setAuthor(undefined);
+          setLoadingAuthor(false);
+        } else {
+          const fetchedAuthor = await fetchAuthorById(fullProduct.author);
+          setAuthor(fetchedAuthor);
+          setLoadingAuthor(false);
+        }
       } else {
-        const fetchedAuthor = await fetchAuthorById(fullProduct.author);
-        setAuthor(fetchedAuthor);
         setLoadingAuthor(false);
       }
-    } else {
-      setLoadingAuthor(false);
-    }
-    setLoadingProduct(false);
-  };
-  loadData();
-}, [initialItem.id]);
-
+      setLoadingProduct(false);
+    };
+    loadData();
+  }, [initialItem.id]);
 
   // Skeleton Loader
   if (loadingProduct || loadingAuthor) {
@@ -134,7 +137,7 @@ const isLiked = user && Array.isArray(item.likes) && item.likes.includes(user.id
       'Activation de la réalité augmentée pour le produit :',
       item.title,
     );
-   navigation2.navigate('AR');
+    navigation2.navigate('AR');
   };
 
   const toggleDescription = () => setShowFullDescription(!showFullDescription);
@@ -176,31 +179,56 @@ const isLiked = user && Array.isArray(item.likes) && item.likes.includes(user.id
   const linearImageSource = require('../assets/images/productCardImage/linear2.png');
 
   const handleLikePress = async () => {
-  if (!user || isLiking) return;
-  setIsLiking(true);
+    if (!user || isLiking) return;
+    setIsLiking(true);
 
-  const success = await ToggleLike(item.id);
+    const success = await ToggleLike(item.id);
 
-  if (success) {
-    //  update like sans recharge product en local
-    setProductData(prev => {
-      if (!prev) return prev;
-      const hasLiked = prev.likes.includes(user.id);
-      const updatedLikes = hasLiked
-        ? prev.likes.filter(id => id !== user.id)
-        : [...prev.likes, user.id];
-      return { ...prev, likes: updatedLikes };
-    });
-  }
+    if (success) {
+      //  update like sans recharge product en local
+      setProductData(prev => {
+        if (!prev) return prev;
+        const hasLiked = prev.likes.includes(user.id);
+        const updatedLikes = hasLiked
+          ? prev.likes.filter(id => id !== user.id)
+          : [...prev.likes, user.id];
+        return { ...prev, likes: updatedLikes };
+      });
+    }
 
-  setIsLiking(false);
-};
+    setIsLiking(false);
+  };
 
-
+  const BottomActionsBar = () => (
+    <View className="absolute bottom-0 inset-x-0 p-4 bg-white border-t border-gray-100 flex-row items-center justify-between gap-3 shadow-2xl z-50">
+      <TouchableOpacity
+        className="flex-row items-center justify-center flex-1 p-4 border border-gray-300 rounded-lg bg-white"
+        onPress={handleARPress}
+      >
+        <CubeTransparentIcon size={20} color="#03233A" weight="bold" />
+        <Text className="ml-2 text-base font-bold text-gray-900">
+          Voir en AR
+        </Text>
+      </TouchableOpacity>
+      {!isTomponProduct && (
+        <TouchableOpacity
+          className="flex-1 flex-row items-center justify-center p-4 bg-[#03233A] rounded-lg"
+          onPress={handlePressMessage}
+        >
+          <ChatTeardropTextIcon size={20} color="#FEF094" weight="bold" />
+          <Text className="ml-2 text-base font-bold text-white">Message</Text>
+        </TouchableOpacity>
+      )}
+    </View>
+  );
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <ScrollView className="flex-1">
+      <ScrollView
+        className="flex-1"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 100 }}
+      >
         <View className="w-full h-[400px] relative">
           {hasImages ? (
             <View className="w-full h-full">
@@ -277,17 +305,19 @@ const isLiked = user && Array.isArray(item.likes) && item.likes.includes(user.id
                   )}
                 </View>
               ) : (
-                <TouchableOpacity 
-                 onPress={handleLikePress}
+                <TouchableOpacity
+                  onPress={handleLikePress}
                   disabled={isLiking}
-                  className="p-3 rounded-full shadow bg-white/30 backdrop-blur-sm">
+                  className="p-3 rounded-full shadow bg-white/30 backdrop-blur-sm"
+                >
                   {isLiking ? (
                     <ActivityIndicator size="small" color="#03233A" />
                   ) : (
-                    <HeartIcon  
+                    <HeartIcon
                       color={isLiked ? 'red' : '#03233A'}
-                      weight={isLiked ? 'fill' : 'regular'} size={24}
-                       />
+                      weight={isLiked ? 'fill' : 'regular'}
+                      size={24}
+                    />
                   )}
                 </TouchableOpacity>
               )}
@@ -295,76 +325,93 @@ const isLiked = user && Array.isArray(item.likes) && item.likes.includes(user.id
           </View>
         </View>
 
-        <View 
+        <View
           className="-mt-8 bg-white shadow-lg"
           style={{
             borderRadius: 10,
             paddingVertical: 20,
-            paddingHorizontal: 10
+            paddingHorizontal: 10,
           }}
         >
-          <View className="flex-row items-start justify-between mb-4">
-            <View className="flex-1">
-              <Text className="mb-1 text-3xl font-extrabold text-gray-900">
+          <View className="flex-row items-center justify-between px-1 py-2 mb-5 rounded-2xl bg-white/90 ">
+            <View className="flex-1 gap-3">
+              <Text
+                className="text-2xl font-medium text-gray-900"
+                numberOfLines={1}
+              >
                 {item.title}
               </Text>
+
               <View className="flex-row items-center mt-1">
                 {isSale && (
-                  <Text className="ml-2 text-xl font-bold text-gray-700">
+                  <Text className="text-xl font-normal text-gray-600">
                     {item.price} Ar
                   </Text>
                 )}
+
                 {isDonation && (
-                  <>
-                    <HeartIcon size={22} color="#EF4444" weight="bold" />
-                    <Text className="ml-2 text-xl font-bold text-gray-700">
-                      Donation (Gratuit)
+                  <View className="flex-row items-center">
+                    <HeartIcon size={18} color="#EF4444" />
+                    <Text className="ml-1 text-base font-semibold text-gray-700">
+                      Gratuit
                     </Text>
-                  </>
+                  </View>
                 )}
+
                 {isEchange && (
-                  <>
-                    <HandshakeIcon size={22} color="#F59E0B" weight="bold" />
-                    <Text className="ml-2 text-xl font-bold text-gray-700">
+                  <View className="flex-row items-center">
+                    <HandshakeIcon size={18} color="#F59E0B" />
+                    <Text className="ml-1 text-base font-semibold text-gray-700">
                       Échange
                     </Text>
-                  </>
+                  </View>
                 )}
               </View>
             </View>
-            <View className="flex-row items-center p-2 bg-gray-100 rounded-lg">
-              <TagIcon size={18} color="#4B5563" weight="bold" />
-              <Text className="ml-1 text-sm font-medium text-gray-600">
+
+            <View className="flex-row items-center bg-gray-50 px-2.5 py-1.5 rounded-full">
+              <TagIcon size={16} color="#6B7280" />
+              <Text className="ml-1 text-sm text-gray-600">
                 {item.category}
               </Text>
             </View>
           </View>
 
-          <View className="flex-row items-center justify-between mb-4">
-            <View className="flex-row items-center">
-              <MapPinIcon size={16} color="#4b5563" />
-              <Text className="ml-2 text-sm text-gray-600">{item.adresse}</Text>
+          <View className="flex-row flex-wrap items-center gap-3 mb-8">
+            <View className="flex-row items-center px-3 py-1.5 bg-gray-100 rounded-full">
+              <MapPinIcon size={16} color="#4b5563" weight="bold" />
+              <Text
+                className="ml-2 text-sm font-medium text-gray-700"
+                numberOfLines={1}
+              >
+                {item.adresse}
+              </Text>
             </View>
-            <View className="flex-row items-center">
-              <ClockCounterClockwiseIcon size={16} color="#4b5563" />
-              <Text className="ml-2 text-sm text-gray-600">
+
+            <View className="flex-row items-center px-3 py-1.5 bg-gray-100 rounded-full">
+              <ClockCounterClockwiseIcon
+                size={16}
+                color="#4b5563"
+                weight="bold"
+              />
+              <Text className="ml-2 text-sm font-medium text-gray-700">
                 Publié le {formatDate(item.created_at)}
+              </Text>
+            </View>
+
+            <View className="flex-row items-center px-3 py-1 bg-red-50 rounded-full border border-red-200">
+              <HeartIcon size={16} color="#EF4444" weight="fill" />
+              <Text className="ml-2 text-sm font-bold text-red-600">
+                {item.likes.length} Likes
               </Text>
             </View>
           </View>
 
-          <View className="flex-row items-center mb-6">
-            <HeartIcon size={16} color="#4b5563" weight="bold" />
-            <Text className="ml-2 text-sm font-medium text-gray-600">
-              {item.likes.length} likes
-            </Text>
-          </View>
-
           {author && (
-            <View 
+            <View
               className="flex-row items-center p-4 mb-6 bg-gray-100"
               style={{
-                borderRadius: 5
+                borderRadius: 5,
               }}
             >
               {profileImageSource ? (
@@ -394,30 +441,6 @@ const isLiked = user && Array.isArray(item.likes) && item.likes.includes(user.id
           )}
 
           {/* Section Recherché en échange */}
-          {isEchange &&
-            item.mots_cles_recherches &&
-            item.mots_cles_recherches.length > 0 && (
-              <View className="mb-8 px-3 py-4 rounded-2xl bg-gradient-to-br from-[#fff8e1] to-[#fff2cc] border border-[#03233A]/40 shadow-sm">
-                <View className="flex-row items-center mb-4">
-                  <Text className="ml-3 text-lg font-extrabold text-[#212529]">
-                    Recherché en échange
-                  </Text>
-                </View>
-
-                <View className="flex-row flex-wrap gap-2">
-                  {item.mots_cles_recherches.map((keyword, index) => (
-                    <View
-                      key={index}
-                      className="px-4 py-1.5 rounded-full bg-[#212529]/5 border border-[#9f7126]/20 backdrop-blur-sm"
-                    >
-                      <Text className="text-sm font-semibold text-[#03233A] tracking-wide">
-                        {keyword.toUpperCase()}
-                      </Text>
-                    </View>
-                  ))}
-                </View>
-              </View>
-            )}
 
           <View className="mb-6">
             <Text className="mb-2 text-xl font-bold text-gray-800">
@@ -437,8 +460,34 @@ const isLiked = user && Array.isArray(item.likes) && item.likes.includes(user.id
             )}
           </View>
 
+          {isEchange &&
+            item.mots_cles_recherches &&
+            item.mots_cles_recherches.length > 0 && (
+              <View className="mb-6 p-4 bg-white border-y border-gray-100">
+                <View className="flex-row items-center mb-4">
+                  <HandshakeIcon size={24} color="#F59E0B" weight="fill" />
+                  <Text className="ml-3 text-xl font-extrabold text-gray-900">
+                    Recherché en échange
+                  </Text>
+                </View>
+
+                <View className="flex-row flex-wrap gap-2">
+                  {item.mots_cles_recherches.map((keyword, index) => (
+                    <View
+                      key={index}
+                      className="px-3 py-1 bg-yellow-50 rounded-lg"
+                    >
+                      <Text className="text-sm font-semibold text-yellow-800 tracking-wide">
+                        {keyword}
+                      </Text>
+                    </View>
+                  ))}
+                </View>
+              </View>
+            )}
+
           {/* Buttons principale */}
-          <View className="flex-row items-center justify-between gap-2">
+          {/*  <View className="flex-row items-center justify-between gap-2">
             <TouchableOpacity
               className="flex-row items-center justify-center flex-1 p-4 bg-gray-200"
               style={{
@@ -465,12 +514,12 @@ const isLiked = user && Array.isArray(item.likes) && item.likes.includes(user.id
                 </Text>
               </TouchableOpacity>
             )}
-          </View>
+          </View> */}
         </View>
 
         {/* Suggestions */}
         {suggestionProducts.length > 0 && (
-          <View className="p-2 pt-8 bg-gray-50">
+          <View className="p-2 pt-8 bg-white">
             <Text className="mb-6 text-2xl font-extrabold text-gray-900">
               Suggestions pour vous
             </Text>
@@ -496,7 +545,7 @@ const isLiked = user && Array.isArray(item.likes) && item.likes.includes(user.id
                     className="w-44 h-64 bg-white shadow-lg overflow-hidden"
                     style={{
                       borderRadius: 5,
-                      marginRight: 5
+                      marginRight: 5,
                     }}
                     onPress={() => handleSuggestionPress(suggestion)}
                   >
@@ -577,6 +626,7 @@ const isLiked = user && Array.isArray(item.likes) && item.likes.includes(user.id
           </View>
         )}
       </ScrollView>
+      <BottomActionsBar />
     </SafeAreaView>
   );
 }

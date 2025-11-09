@@ -220,7 +220,7 @@ export default function InformationUser() {
                     </TouchableOpacity>
                 </View>
 
-                <View className="bg-white rounded-xl shadow-md mb-8">
+                <View className="bg-white rounded-xl p-4 shadow-md mb-8">
                     <FormField 
                         label="Prénom"
                         name="first_name"

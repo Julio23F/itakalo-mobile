@@ -80,7 +80,7 @@ export default function ProfileScreen() {
 
       <ScrollView className="flex-1 px-6">
         <TouchableOpacity
-          className="bg-white flex-row items-center rounded-2xl w-full  shadow-md mb-8"
+          className="bg-white flex-row items-center rounded-2xl w-full p-2 shadow-md mb-8"
           onPress={() => navigation.navigate('TrueProfilUserAccess')}
         >
           {hasProfilimage ? (
