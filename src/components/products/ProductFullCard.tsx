@@ -1,67 +1,72 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   Image,
-  ImageBackground,
   ActivityIndicator,
-} from 'react-native';
-import { ProductDataI, ProductContext } from '../../context/ProductContext';
-import { HeartIcon, ImageSquareIcon } from 'phosphor-react-native';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamListHomenavigatorScreen } from '../../types/Types';
-import { AuthContext } from '../../context/AuthContext';
-import { UserContext, UserI } from '../../context/UserContext';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+} from "react-native";
+import { ProductDataI, ProductContext } from "../../context/ProductContext";
+import { HeartIcon } from "phosphor-react-native";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamListHomenavigatorScreen } from "../../types/Types";
+import { AuthContext } from "../../context/AuthContext";
+import { UserContext, UserI } from "../../context/UserContext";
 
 interface ProductCardProps {
   item: ProductDataI;
-  cardWidth:any
+  cardWidth: any;
 }
 
 type ProductCardNavigationProp = NativeStackNavigationProp<
   RootStackParamListHomenavigatorScreen,
-  'Product'
+  "Product"
 >;
 
-export default function ProductFullCard({ item , cardWidth }: ProductCardProps) {
+export default function ProductFullCard({ item, cardWidth }: ProductCardProps) {
   const navigation = useNavigation<ProductCardNavigationProp>();
-
-  const { users, fetchAuthorById } = useContext(UserContext);
   const { user } = useContext(AuthContext);
+  const { fetchAuthorById } = useContext(UserContext);
   const { ToggleLike } = useContext(ProductContext);
 
   const [isLiking, setIsLiking] = useState(false);
-  const [isImageLoading, setIsImageLoading] = useState(true);
   const [author, setAuthor] = useState<UserI | undefined>(undefined);
   const [loadingAuthor, setLoadingAuthor] = useState(true);
 
   const mainImageUri =
     item.images && item.images.length > 0 ? item.images[0] : null;
+  const isLiked = user && item.likes.includes(user.id);
+  const isSale = item.type === "SALE";
+
+  const profileImageSource = author?.image ? { uri: author.image } : null;
 
   useEffect(() => {
+    let isMounted = true; // Pour éviter les fuites de mémoire (setState sur un composant démonté)
     const loadAuthor = async () => {
-      if (!item.author) {
-        setAuthor(undefined);
+      if (!item.author || !isMounted) {
         setLoadingAuthor(false);
         return;
       }
-      setLoadingAuthor(true);
-      const fetchedAuthor = await fetchAuthorById(item.author);
-      setAuthor(fetchedAuthor);
-      setLoadingAuthor(false);
+      try {
+        const fetchedAuthor = await fetchAuthorById(item.author);
+        if (isMounted) {
+            setAuthor(fetchedAuthor);
+        }
+      } catch (error) {
+          console.error("Erreur lors du chargement de l'auteur:", error);
+      } finally {
+        if (isMounted) {
+            setLoadingAuthor(false);
+        }
+      }
     };
     loadAuthor();
-  }, [item.author, users]);
-
-  const profileImageSource = author?.image ? { uri: author.image } : null;
-  const isSaleProduct = item.type === 'SALE';
-  const linearImageSource = require('../../assets/images/productCardImage/linear2.png');
-  const hasImage = !!mainImageUri;
-
-  const isLiked = user && item.likes.includes(user.id);
+    
+    return () => {
+        isMounted = false; // Cleanup
+    };
+  }, [item.author, fetchAuthorById]); 
 
   const handleLikePress = async () => {
     if (!user || isLiking) return;
@@ -69,129 +74,92 @@ export default function ProductFullCard({ item , cardWidth }: ProductCardProps) 
     await ToggleLike(item.id);
     setIsLiking(false);
   };
-  const isLoading = (isImageLoading && hasImage) || loadingAuthor;
 
-  const HandlePressCard = () => {
-   navigation.navigate('Product', { item });
+  const handlePressCard = () => {
+    navigation.navigate("Product", { item });
   };
 
   return (
     <TouchableOpacity
-/*     w-48*/      
-      className=" overflow-hidden bg-white shadow-lg"
-      onPress={() => HandlePressCard()}
+      onPress={handlePressCard}
       activeOpacity={0.8}
-      disabled={isLoading}
-      style={{ 
-        width: cardWidth, 
-        borderRadius: 5,
-      }}
+      className="bg-white rounded-sm shadow-sm mb-5 overflow-hidden"
+      style={{ width: cardWidth, elevation: 1 }}
     >
-      <ImageBackground
-        source={hasImage ? { uri: mainImageUri } : undefined}
-        className="justify-between w-full h-72"
-        resizeMode="cover"
-        onLoadEnd={() => setIsImageLoading(false)}
-        style={!hasImage ? { backgroundColor: '#E5E7EB' } : undefined}
-      >
-        {/* Skeleton Loader */}
-        {isLoading ? (
-          <SkeletonPlaceholder
-            backgroundColor="#E5E7EB"
-            highlightColor="#F3F4F6"
-          >
-            <View style={{ width: '100%', height: 288, borderRadius: 0 }}>
-              {/* Image */}
-              <View
-                style={{ width: '100%', height: '100%', borderRadius: 0 }}
-              />
-            </View>
-          </SkeletonPlaceholder>
-        ) : !hasImage ? (
-          <View className="absolute inset-0 items-center justify-center">
-            <ImageSquareIcon size={50} color="#6B7280" weight="light" />
-            <Text className="mt-2 text-gray-500 text-xs">Pas de photo</Text>
-          </View>
-        ) : null}
-
-        {!isImageLoading && !loadingAuthor && (
-          <>
-            <View
-              className="absolute items-center justify-center overflow-hidden border-2 border-white rounded-full top-4 left-4 w-11 h-11"
-              style={{ backgroundColor: isSaleProduct ? '#F3F4F6' : '#03233A' }}
-            >
-              {profileImageSource && (
-                <Image
-                  source={profileImageSource}
-                  className="w-full h-full"
-                  resizeMode="cover"
-                />
-              )}
-            </View>
-
-            {/* Superposition dégradée */}
-            {hasImage && (
-              <Image
-                source={linearImageSource}
-                resizeMode="cover"
-                className="absolute bottom-0 z-10 w-full h-full"
-              />
-            )}
-
-            <View className="absolute inset-x-0 bottom-0 z-20 p-4">
-              <View className="flex-row items-center justify-between mt-2">
-                {item.type === 'ECHANGE' ? (
-                    <Text className="text-base font-normal text-yellow-200">
-                      Échange
-                    </Text>
-                  ) : (
-                    <Text className="text-lg font-bold text-white">
-                      Prix: {item.price} Ar
-                    </Text>
-                )}
-                <TouchableOpacity
-                  className="flex-row items-center bg-white rounded-md"
-                  style={{
-                    paddingVertical: 2,
-                    paddingHorizontal: 6
-                  }}
-                  onPress={handleLikePress}
-                  disabled={isLiking}
-                >
-                  {isLiking ? (
-                    <ActivityIndicator size="small" color="#03233A" />
-                  ) : (
-                    <HeartIcon
-                      size={20}
-                      color={isLiked ? 'red' : '#03233A'}
-                      weight={isLiked ? 'fill' : 'regular'}
-                    />
-                  )}
-                  <Text className="ml-1 text-xs text-black">
-                    {item.likes.length}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </>
+      
+      <View className="w-full h-52 bg-gray-100 items-center justify-center">
+        {mainImageUri ? (
+          <Image
+            source={{ uri: mainImageUri }}
+            className="w-full h-full"
+            resizeMode="cover"
+          />
+        ) : (
+          <Text className="text-gray-400 text-sm">Aucune image</Text>
         )}
-      </ImageBackground>
 
-      <View className="flex-1 mt-[10px]">
-        <Text 
-          className="text-[15px] font-semibold text-black leading-tight"
-          numberOfLines={2}
+        {!loadingAuthor && profileImageSource && (
+            <View className="absolute top-4 left-4 w-10 h-10 rounded-full overflow-hidden border-2 border-white bg-white shadow-lg">
+                <Image
+                    source={profileImageSource}
+                    className="w-full h-full"
+                    resizeMode="cover"
+                />
+            </View>
+        )}
+        
+        {loadingAuthor && (
+             <View className="absolute top-4 left-4 w-10 h-10 rounded-full bg-gray-300 items-center justify-center border-2 border-white">
+                <ActivityIndicator size="small" color="#03233A" />
+            </View>
+        )}
+
+      </View>
+
+      <View className="p-3">
+        <Text
+          numberOfLines={1}
+          className="text-[16px] font-bold text-[#212529] mb-1"
         >
           {item.title}
         </Text>
-        <Text 
-          className="text-[13px] text-gray-500 mt-1 leading-snug"
+
+        <Text
           numberOfLines={2}
+          className="text-[13px] text-gray-500 leading-5 mb-2"
         >
           {item.description}
         </Text>
+
+        <View className="flex-row items-center justify-between mt-1">
+          <Text
+            className={`text-[15px] ${
+              isSale ? "text-gray-600" : "text-[#03233A]"
+            }`}
+          >
+            {isSale ? `${item.price} Ar` : "Échange"}
+          </Text>
+
+          <TouchableOpacity
+            onPress={handleLikePress}
+            disabled={isLiking}
+            className="flex-row items-center bg-gray-100 px-2.5 py-1 rounded-lg"
+          >
+            {isLiking ? (
+              <ActivityIndicator size="small" color="#03233A" />
+            ) : (
+              <HeartIcon
+                size={20}
+                color={isLiked ? "#e63946" : "#212529"}
+                weight={isLiked ? "fill" : "regular"}
+              />
+            )}
+            <Text className="ml-1 text-xs text-[#212529]">
+              {item.likes.length}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
-        
     </TouchableOpacity>
   );
 }
