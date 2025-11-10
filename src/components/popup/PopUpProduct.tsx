@@ -16,10 +16,26 @@ export default function PopUpProduct({ setShowPopup, productId }: PopUpProductPr
   const { deleteProduct } = useContext(ProductContext);
   const navigation = useNavigation<NavigationProp<RootStackParamListMainNavigatorTab>>();
   const [confirmVisible, setConfirmVisible] = useState(false);
+const [loadingDelete, setLoadingDelete] = useState(false);
 
-  const handleDelete = () => {
-    setConfirmVisible(true);
-  };
+const handleDelete = () => {
+  setConfirmVisible(true);
+};
+
+const handleConfirmDelete = async () => {
+  setLoadingDelete(true);
+  const success = await deleteProduct(productId);
+  setLoadingDelete(false);
+
+  if (success) {
+    setShowPopup(false);
+    setConfirmVisible(false);
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Accueil', params: { screen: 'AccueilMain' } }],
+    });
+  }
+};
 
   const actions = [
     {
@@ -49,7 +65,7 @@ export default function PopUpProduct({ setShowPopup, productId }: PopUpProductPr
   ];
 
   return (
-    <View className="absolute right-0 top-14 bg-white rounded-xl shadow-lg py-2 z-30 w-44 border border-gray-200">
+    <View className="absolute right-5 top-14 bg-white rounded-xl shadow-lg py-2 z-30 w-44 border border-gray-200">
       {actions.map((action, index) => (
         <TouchableOpacity
           key={index}
@@ -61,20 +77,16 @@ export default function PopUpProduct({ setShowPopup, productId }: PopUpProductPr
         </TouchableOpacity>
       ))}
 
-      <ConfirmModal
-        visible={confirmVisible}
-        onCancel={() => setConfirmVisible(false)}
-        onConfirm={() => {
-          deleteProduct(productId);
-          setShowPopup(false);
-          setConfirmVisible(false);
-          navigation.navigate('Accueil', { screen: 'AccueilMain' });
-        }}
-        title="Supprimer le produit"
-        message="Voulez-vous vraiment supprimer ce produit ?"
-        confirmText="Supprimer"
-        cancelText="Annuler"
-      />
+    <ConfirmModal
+  visible={confirmVisible}
+  onCancel={() => setConfirmVisible(false)}
+  onConfirm={handleConfirmDelete}
+  title="Supprimer le produit"
+  message="Voulez-vous vraiment supprimer ce produit ?"
+  confirmText={loadingDelete ? "Suppression..." : "Supprimer"}
+  cancelText="Annuler"
+/>
+
     </View>
   );
 }

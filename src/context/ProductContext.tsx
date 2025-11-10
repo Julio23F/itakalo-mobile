@@ -44,7 +44,7 @@ interface ProductContextType {
   fetchFilteredProductsEchange: (filters: any) => void;
   fetchFilteredAllProductsByBtn: (filters: any) => void;
   addProduct: (newProduct: ProductDataI) => void;
-  deleteProduct: (id: number) => void;
+  deleteProduct: (id: number) => Promise<boolean>
   fetchProductById: (id: number) => Promise<ProductDataI | undefined>;
   ToggleLike: (productId: number) => Promise<boolean>;
 }
@@ -65,7 +65,7 @@ export const ProductContext = createContext<ProductContextType>({
   fetchFilteredAllProductsByBtn: () => {},
   
   addProduct: () => {},
-  deleteProduct: () => {},
+deleteProduct: async (id: number) => false,
   fetchProductById: async () => undefined,
   ToggleLike: async productId => false,
 });
@@ -271,23 +271,25 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({
     setAllProducts(prevProducts => [newProduct, ...prevProducts]);
   };
 
-  const deleteProduct = async (id: number) => {
-    setLoading(true);
-    try {
-      await API.delete(`/api/v1/products/${id}/`);
+ const deleteProduct = async (id: number) => {
+  setLoading(true);
+  try {
+    await API.delete(`/api/v1/products/${id}/`);
 
-      setAllProducts(prev => prev.filter(p => p.id !== id));
-      setsaleProducts(prev => prev.filter(p => p.id !== id));
-      setDonationProducts(prev => prev.filter(p => p.id !== id));
-      setEchangeProducts(prev => prev.filter(p => p.id !== id));
+    setAllProducts(prev => prev.filter(p => p.id !== id));
+    setsaleProducts(prev => prev.filter(p => p.id !== id));
+    setDonationProducts(prev => prev.filter(p => p.id !== id));
+    setEchangeProducts(prev => prev.filter(p => p.id !== id));
 
-      console.log(`Produit ${id} supprimé avec succès`);
-    } catch (err) {
-      console.error(`Erreur lors de la suppression du produit ${id}:`, err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    console.log(`Produit ${id} supprimé avec succès`);
+    return true;
+  } catch (err) {
+    console.error(`Erreur lors de la suppression du produit ${id}:`, err);
+    return false;
+  } finally {
+    setLoading(false);
+  }
+};
 
   const ToggleLike = async (productId: number): Promise<boolean> => {
     if (!user || !user.id) {

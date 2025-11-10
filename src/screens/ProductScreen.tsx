@@ -17,8 +17,11 @@ import ProductHeader from '../components/productScrenn/ProductHeader';
 import ProductInfo from '../components/productScrenn/ProductInfo';
 import ProductSuggestions from '../components/productScrenn/ProductSuggestions';
 import BottomActionsBar from '../components/productScrenn/BottomActionsBar';
+import AnimatedProductHeader from '../components/productScrenn/AnimatedProductHeader';
+import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
 
 const { width } = Dimensions.get('window');
+const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
 
 type AppNavigationProp = NativeStackNavigationProp<
   RootStackParamListHomenavigatorScreen & {
@@ -124,6 +127,11 @@ export default function ProductScreen() {
     );
   };
 
+  const scrollY = useSharedValue(0);
+  const scrollHandler = useAnimatedScrollHandler(event => {
+    scrollY.value = event.contentOffset.y;
+  });
+
 
   if (loadingProduct || loadingAuthor) {
     return <ProductScreenSkeleton />;
@@ -131,22 +139,31 @@ export default function ProductScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <ScrollView
+
+       <AnimatedProductHeader
+        itemTitle={item.title}
+        isTomponProduct={isTomponProduct}
+        isLiked={isLiked}
+        isLiking={isLiking}
+        showPopup={showPopup}
+        setShowPopup={setShowPopup}
+        handleLikePress={handleLikePress}
+        productId={item.id}
+        scrollY={scrollY} 
+      />
+      <AnimatedScrollView
         className="flex-1"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100 }}
+        onScroll={scrollHandler}
+        scrollEventThrottle={16}
+        
       >
         <ProductHeader
           item={item}
           isTomponProduct={isTomponProduct}
-          isLiked={isLiked}
-          isLiking={isLiking}
           activeIndex={activeIndex}
           setActiveIndex={setActiveIndex}
-          showPopup={showPopup}
-          setShowPopup={setShowPopup}
-          handleLikePress={handleLikePress}
-          navigation={navigation}
         />
 
         <View className="">
@@ -163,9 +180,9 @@ export default function ProductScreen() {
             handleSuggestionPress={handleSuggestionPress}
           />
         </View>
-      </ScrollView>
+      </AnimatedScrollView>
 
-      {/* 4. BARRE D'ACTIONS FIXE */}
+      {/*  BARRE D'ACTIONS FIXE */}
       <BottomActionsBar
         isTomponProduct={isTomponProduct}
         handleARPress={handleARPress}
