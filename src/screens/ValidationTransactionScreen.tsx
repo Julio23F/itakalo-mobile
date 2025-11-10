@@ -62,7 +62,7 @@ export default function ValidationTransactionScreen() {
             </View>
 
             <Text className="mt-1 text-2xl font-extrabold text-gray-900">
-              {isSale ? `Ar ${formattedPrice}` : 'Donation'}
+              {isSale ? `Ar ${formattedPrice}` : 'Échange'}
             </Text>
 
             <Text className="text-xs font-medium text-gray-400">

@@ -33,7 +33,7 @@ export default function ProductDetailsInMessage({
           {produit.title || 'Article'}
         </Text>
         <Text className="mt-1 text-sm text-gray-500">
-          {produit.price ? `Ar ${produit.price}` : 'Donation'}
+          {produit.price ? `Ar ${produit.price}` : 'Échange'}
         </Text>
       </View>
       <TouchableOpacity
