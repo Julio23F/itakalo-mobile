@@ -12,6 +12,7 @@ import HomeStackNavigator from './HomeStackNavigator';
 import ChatStackNavigator from './ChatStackNavigator';
 import ProfilStackNavigator from './ProfilStackNavigator';
 import CustomTabBar2 from '../components/CustomTabBar2';
+import NotificationScreen from '../screens/notifications';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,8 +25,9 @@ const MainNavigator: React.FC = () => {
       <Tab.Screen name="Accueil" component={HomeStackNavigator} />
       <Tab.Screen name="Message" component={ChatStackNavigator} />
       <Tab.Screen name="Sell" component={ProductAdScreen} />
-      <Tab.Screen name="Notification" component={WalletScreen} />
-      <Tab.Screen name="Profile" component={ProfilStackNavigator} />
+      <Tab.Screen name="Notification" component={NotificationScreen} />
+{/*       <Tab.Screen name="Notification" component={WalletScreen} />*/}      
+<Tab.Screen name="Profile" component={ProfilStackNavigator} />
     </Tab.Navigator>
   );
 };

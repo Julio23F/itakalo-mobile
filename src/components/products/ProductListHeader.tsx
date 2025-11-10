@@ -67,7 +67,7 @@ const ProductListHeader = memo(({
       ) : (
         <View className="items-center justify-center p-4">
           <Text className="text-lg text-gray-500 text-center">
-            Aucun produit trouvé pour cette catégorie.
+            Aucun produit d' échanges trouvé pour cette catégorie.
           </Text>
         </View>
       )}
