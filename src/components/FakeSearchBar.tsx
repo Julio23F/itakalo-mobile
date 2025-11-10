@@ -21,13 +21,13 @@ export default function FakeSearchBar({ onFilterPress }: Props) {
 
   return (
     <View className="px-1">
-      <View className="flex-row items-center mb-4">
+      <View className="flex-row items-center mt-5 mb-4">
         <TouchableOpacity
           onPress={handlePress}
           className="flex-row items-center bg-[#F9F9F9] border border-[#C2C2C2] flex-1 rounded-xl px-3 py-[2.5%] shadow-md mr-4"
         >
           <MagnifyingGlassIcon size={21} weight="bold" color="#9F9F9F" />
-          <Text className="flex-1 ml-2 text-base text-[#9F9F9F]">
+          <Text className="flex-1 ml-2 text-base truncate text-[#9F9F9F]"  numberOfLines={1}>
             Rechercher un article ou un membre
           </Text>
         </TouchableOpacity>

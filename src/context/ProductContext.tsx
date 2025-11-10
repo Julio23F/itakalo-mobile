@@ -42,6 +42,7 @@ interface ProductContextType {
   fetchMoreProducts: () => void;
   fetchFilteredProductsDonation: (filters: any) => void;
   fetchFilteredProductsEchange: (filters: any) => void;
+  fetchFilteredAllProductsByBtn: (filters: any) => void;
   addProduct: (newProduct: ProductDataI) => void;
   deleteProduct: (id: number) => void;
   fetchProductById: (id: number) => Promise<ProductDataI | undefined>;
@@ -61,6 +62,7 @@ export const ProductContext = createContext<ProductContextType>({
   fetchMoreProducts: () => {},
   fetchFilteredProductsDonation: () => {},
   fetchFilteredProductsEchange: () => {},
+  fetchFilteredAllProductsByBtn: () => {},
   
   addProduct: () => {},
   deleteProduct: () => {},
@@ -229,6 +231,34 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({
   }
 };
 
+  const fetchFilteredAllProductsByBtn = async (filters: any) => {
+    setLoading(true);
+    try {
+      if (filters.category === "all") {
+        await fetchProducts();
+      } else {
+        const res = await API.get("/api/v1/products/", {
+          params: {
+            category: filters.category,
+          },
+        });
+
+        const fetchedProducts = (res.data.dataset as ProductDataI[]).map((p) => ({
+          ...p,
+          likes: Array.isArray(p.likes) ? p.likes : [],
+        }));
+
+        setAllProducts(fetchedProducts);
+        setsaleProducts(fetchedProducts.filter((i) => i.type === "SALE"));
+        setDonationProducts(fetchedProducts.filter((i) => i.type === "DONATION"));
+        setEchangeProducts(fetchedProducts.filter((i) => i.type === "ECHANGE"));
+      }
+    } catch (err) {
+      console.error("Erreur fetchFilteredAllProductsByBtn:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const addProduct = (newProduct: ProductDataI) => {
     if (newProduct.type === 'SALE') {
@@ -318,6 +348,7 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({
         currentPage,
         fetchFilteredProductsDonation,
             fetchFilteredProductsEchange,
+            fetchFilteredAllProductsByBtn,
         fetchProducts,
         fetchMoreProducts,
         addProduct,

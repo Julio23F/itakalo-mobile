@@ -39,13 +39,12 @@ export default function HomeScreen() {
     console.log('Filtres vente reçus par HomeScren:', filters);
   }, []);
 
- const { fetchFilteredProductsEchange } = useContext(ProductContext);
+ const { fetchFilteredProductsEchange  , fetchFilteredAllProductsByBtn} = useContext(ProductContext);
 
 const handleApplyFiltersBarEchange = useCallback(
   (filters: any) => {
     setIsSelectfilterEchange(filters.category);
-    fetchFilteredProductsEchange(filters);
-  },
+ fetchFilteredAllProductsByBtn(filters);  },
   [fetchFilteredProductsEchange],
 );
 

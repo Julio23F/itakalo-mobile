@@ -8,7 +8,7 @@ export default function HeroSection() {
   const [heroItems, setHeroItems] = useState(HeroData);
 
   return (
-    <View className="" style={{margin: 'auto' }}>
+    <View className=" " style={{margin: 'auto' }}>
       <Carousel
         loop
         width={width * 0.99}
@@ -19,7 +19,7 @@ export default function HeroSection() {
         renderItem={({ item, index }) => (
           <View
             key={index}
-            className="rounded-2xl shadow-lg p-2 overflow-hidden"
+            className="rounded-2xl bg-white p-2 overflow-hidden"
             style={{ height: 200 }}
           >
        
