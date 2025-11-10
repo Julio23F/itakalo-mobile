@@ -18,7 +18,11 @@ import ProductInfo from '../components/productScrenn/ProductInfo';
 import ProductSuggestions from '../components/productScrenn/ProductSuggestions';
 import BottomActionsBar from '../components/productScrenn/BottomActionsBar';
 import AnimatedProductHeader from '../components/productScrenn/AnimatedProductHeader';
-import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
+import Animated, {
+  useAnimatedScrollHandler,
+  useSharedValue,
+} from 'react-native-reanimated';
+import ImageGalleryModal from '../components/productScrenn/ImageGalleryModal';
 
 const { width } = Dimensions.get('window');
 const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
@@ -132,6 +136,15 @@ export default function ProductScreen() {
     scrollY.value = event.contentOffset.y;
   });
 
+  const [isGalleryVisible, setIsGalleryVisible] = useState(false);
+  const [initialImageIndex, setInitialImageIndex] = useState(0);
+
+  const handleImagePress = (index: number) => {
+    setInitialImageIndex(index);
+    setIsGalleryVisible(true);
+  };
+
+  const images = item.images || [];
 
   if (loadingProduct || loadingAuthor) {
     return <ProductScreenSkeleton />;
@@ -139,8 +152,7 @@ export default function ProductScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-
-       <AnimatedProductHeader
+      <AnimatedProductHeader
         itemTitle={item.title}
         isTomponProduct={isTomponProduct}
         isLiked={isLiked}
@@ -149,7 +161,7 @@ export default function ProductScreen() {
         setShowPopup={setShowPopup}
         handleLikePress={handleLikePress}
         productId={item.id}
-        scrollY={scrollY} 
+        scrollY={scrollY}
       />
       <AnimatedScrollView
         className="flex-1"
@@ -157,13 +169,13 @@ export default function ProductScreen() {
         contentContainerStyle={{ paddingBottom: 100 }}
         onScroll={scrollHandler}
         scrollEventThrottle={16}
-        
       >
         <ProductHeader
           item={item}
           isTomponProduct={isTomponProduct}
           activeIndex={activeIndex}
           setActiveIndex={setActiveIndex}
+          onImagePress={handleImagePress}
         />
 
         <View className="">
@@ -178,6 +190,13 @@ export default function ProductScreen() {
           <ProductSuggestions
             suggestionProducts={item.suggestions || []}
             handleSuggestionPress={handleSuggestionPress}
+          />
+
+          <ImageGalleryModal
+            isVisible={isGalleryVisible}
+            onClose={() => setIsGalleryVisible(false)}
+            images={images}
+            initialImageIndex={initialImageIndex}
           />
         </View>
       </AnimatedScrollView>

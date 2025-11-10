@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, Dimensions} from 'react-native';
+import { View, Text, Image, Dimensions, TouchableOpacity} from 'react-native';
 import { ImageSquareIcon} from 'phosphor-react-native';
 import Carousel from 'react-native-reanimated-carousel';
 
@@ -14,9 +14,10 @@ interface ProductHeaderProps {
   isTomponProduct: boolean; 
   activeIndex: number;
   setActiveIndex: (index: number) => void;
+  onImagePress: (index: number) => void;
 }
 
-const ProductHeader: React.FC<ProductHeaderProps> = ({ item, activeIndex, setActiveIndex,}) => {
+const ProductHeader: React.FC<ProductHeaderProps> = ({ item, activeIndex, setActiveIndex, onImagePress}) => {
   
   const heroItems = item.images || [];
   const hasImages = heroItems.length > 0;
@@ -35,13 +36,19 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({ item, activeIndex, setAct
             onSnapToItem={setActiveIndex}
             /*mode='parallax'*/
             renderItem={({ item: imageUri, index }) => (
-              <Image
-                key={index}
-                source={{ uri: imageUri }}
-                style={{ width: width, height: '100%' }}
-                resizeMode="cover"
-                className="rounded-b-3xl"
-              />
+           <TouchableOpacity 
+                key={index} 
+                className="w-full h-full" 
+                activeOpacity={1}
+                onPress={() => onImagePress(index)}
+              >
+                <Image
+                  source={{ uri: imageUri }}
+                  style={{ width: width, height: '100%' }}
+                  resizeMode="cover"
+                  className="rounded-b-3xl"
+                />
+              </TouchableOpacity>
             )}
           />
           {/* Pagination */}
