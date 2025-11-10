@@ -17,7 +17,9 @@ import NetworkToast from './src/components/Network/NetworkToast';
 import { ScrollProvider } from './src/context/ScrollContext';
 
 // Masque le warning de SafeAreaView
-LogBox.ignoreLogs(['SafeAreaView has been deprecated']);
+LogBox.ignoreLogs([
+  'SafeAreaView has been deprecated and will be removed in a future release. Please use',
+]);
 const App: React.FC = () => {
   const [syncStatus, setSyncStatus] = useState<string>('');
   const [downloadProgress, setDownloadProgress] = useState<{
