@@ -36,6 +36,8 @@ const DONATION_CATEGORIES = [
   'ROBE',
   'CHAUSSURE',
   'VESTE',
+  'ACCESSOIRES',
+  'ELECTRONIQUE'
 ];
 
 type FormData = {

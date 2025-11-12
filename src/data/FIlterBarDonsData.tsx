@@ -9,6 +9,8 @@ import {
   PantsIcon, 
   DressIcon, 
   TShirtIcon, 
+  ShoppingBag,
+  DesktopTower,
   HouseIcon, 
 } from "phosphor-react-native";
 
@@ -30,6 +32,11 @@ const filtersBarDonDataCategirue: FilterItem[] = [
     icon: (active: boolean) => <TShirtIcon size={18} color={active ? "#03233A" : "black"} />,
   },
   {
+    label: "Accessoires",
+    value: "ACCESSOIRES", 
+    icon: (active: boolean) => <ShoppingBag size={18} color={active ? "#03233A" : "black"} />,
+  },
+  {
     label: "Robes",
     value: "ROBE",
     icon: (active: boolean) => <DressIcon size={18} color={active ? "#03233A" : "black"} />,
@@ -48,6 +55,11 @@ const filtersBarDonDataCategirue: FilterItem[] = [
     label: "Vestes",
     value: "VESTE",
     icon: (active: boolean) => <ChairIcon size={18} color={active ? "#03233A" : "black"} />, 
+  },
+  {
+    label: "Electroniques",
+    value: "ELECTRONIQUE", 
+    icon: (active: boolean) => <DesktopTower size={18} color={active ? "#03233A" : "black"} />,
   },
 ];
 

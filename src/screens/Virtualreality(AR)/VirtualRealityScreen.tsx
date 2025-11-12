@@ -28,14 +28,15 @@ const HelloWorldSceneAR = () => {
 
       {/* Ton objet 3D */}
       <Viro3DObject
-        source={require("../../Object3D/test3.glb")}
+        source={require("../../Object3D/products/sac_luxe.glb")}
         type="GLB"
-        position={[0, 0, -1]} // à 1 mètre devant la caméra
-        scale={[0.1, 0.1, 0.1]} // adapte la taille selon ton modèle
-        rotation={[0, 0, 0]} // tu peux ajuster ici l'angle
+        position={[0, 0, -0.3]}   // Plus proche de la caméra
+        scale={[0.3, 0.3, 0.3]}   // Plus grand
+        rotation={[0, 0, 0]}
         dragType="FixedToWorld"
         onDrag={() => {}}
       />
+
     </ViroARScene>
   );
 };
