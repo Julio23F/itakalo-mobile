@@ -9,6 +9,11 @@ module.exports = {
         colorbtn: '#FEF094', 
         colortextbtn: '#000000'
       },
+      height: {
+        'linearImageHeight': '14rem',
+        'exchangeProductHeight': '12rem',
+        'exchangeProductWidth': '5rem',
+      },
     },
   },
   plugins: [],

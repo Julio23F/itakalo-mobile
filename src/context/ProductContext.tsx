@@ -108,7 +108,8 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({
       setAllProducts(fetchedProducts);
       setDonationProducts(donations);
       setsaleProducts(sales);
-      setEchangeProducts(echanges);
+      // setEchangeProducts(echanges);
+      setEchangeProducts(fetchedProducts);
       
       // Vérifier s'il y a plus de données
       setHasMore(fetchedProducts.length === 25);

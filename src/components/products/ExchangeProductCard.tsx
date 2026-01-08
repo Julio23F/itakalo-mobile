@@ -16,18 +16,18 @@ import { AuthContext } from '../../context/AuthContext';
 import { UserContext, UserI } from '../../context/UserContext';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
-interface ProductCardProps {
+interface ExchangeProductCardProps {
   item: ProductDataI;
   cardWidth:any
 }
 
-type ProductCardNavigationProp = NativeStackNavigationProp<
+type ExchangeProductCardNavigationProp = NativeStackNavigationProp<
   RootStackParamListHomenavigatorScreen,
   'Product'
 >;
 
-export default function ProductCard({ item , cardWidth }: ProductCardProps) {
-  const navigation = useNavigation<ProductCardNavigationProp>();
+export default function ExchangeExchangeProductCard({ item , cardWidth }: ExchangeProductCardProps) {
+  const navigation = useNavigation<ExchangeProductCardNavigationProp>();
 
   const { users, fetchAuthorById } = useContext(UserContext);
   const { user } = useContext(AuthContext);
@@ -89,7 +89,7 @@ export default function ProductCard({ item , cardWidth }: ProductCardProps) {
     >
       <ImageBackground
         source={hasImage ? { uri: mainImageUri } : undefined}
-        className="justify-between w-full h-72"
+        className="justify-between w-full h-exchangeProductHeight"
         resizeMode="cover"
         onLoadEnd={() => setIsImageLoading(false)}
         style={!hasImage ? { backgroundColor: '#E5E7EB' } : undefined}
@@ -116,7 +116,7 @@ export default function ProductCard({ item , cardWidth }: ProductCardProps) {
 
         {!isImageLoading && !loadingAuthor && (
           <>
-            <View
+            {/* <View
               className="absolute items-center justify-center overflow-hidden border-white rounded-full top-2 left-2 w-9 h-9"
               style={{ backgroundColor: isSaleProduct ? '#F3F4F6' : '#03233A', borderWidth: 1 }}
             >
@@ -127,7 +127,7 @@ export default function ProductCard({ item , cardWidth }: ProductCardProps) {
                   resizeMode="cover"
                 />
               )}
-            </View>
+            </View> */}
 
             {/* Superposition dégradée */}
             {hasImage && (

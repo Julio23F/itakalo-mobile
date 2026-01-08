@@ -44,7 +44,7 @@ const ProductRowItem = memo(({
   }
   
   return (
-    <View style={{ paddingHorizontal: 8 }}>
+    <View style={{ paddingHorizontal: 2 }}>
       {showPourVous && <PourVousSection marginTop={marginTop} />}
       
       <View
@@ -52,17 +52,17 @@ const ProductRowItem = memo(({
           flexDirection: 'row',
           justifyContent: 'space-between',
           marginTop: showPourVous ? 0 : marginTop,
-          gap: 5,
+          // gap: 5,
         }}
       >
         <ProductCard
           item={item}
-          cardWidth={(width - 19) / 2}
+          cardWidth={(width - 5) / 2}
         />
         {nextItem && (
           <ProductCard
             item={nextItem}
-            cardWidth={(width - 19) / 2}
+            cardWidth={(width - 5) / 2}
           />
         )}
       </View>

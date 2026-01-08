@@ -5,6 +5,7 @@ import ProductCard from './ProductCard';
 import FakeSearchBar from '../FakeSearchBar';
 import FilterBarDons from '../FilterBarDons';
 import { ProductDataI } from '../../context/ProductContext';
+import ExchangeExchangeProductCard from './ExchangeProductCard';
 
 const { width } = Dimensions.get('window');
 
@@ -54,13 +55,13 @@ const ProductListHeader = memo(({
           data={echangeProducts}
           keyExtractor={item => item.id.toString()}
           renderItem={({ item }) => (
-            <ProductCard item={item} cardWidth={width * 0.43} />
+            <ExchangeExchangeProductCard item={item} cardWidth={width * 0.36} />
           )}
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{
-            paddingHorizontal: 20,
-            gap: 10,
+            paddingHorizontal: 2,
+            gap: 2,
             marginBottom: 20,
           }}
         />
@@ -72,7 +73,7 @@ const ProductListHeader = memo(({
         </View>
       )}
 
-      <Text className="text-xl font-bold text-gray-800 mb-2 px-6">
+      <Text className="text-xl font-bold text-gray-800 mb-2 px-6" style={{marginTop:20}}>
         Tous les produits
       </Text>
     </>
