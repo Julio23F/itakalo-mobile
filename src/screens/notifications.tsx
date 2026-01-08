@@ -142,7 +142,7 @@ export default function NotificationScreen() {
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() => handlePressNotification(item.id)}
-            className={`flex-row items-center p-4 mb-3 rounded-xl ${
+            className={`flex-row items-center p-4 mb-1 rounded-xl ${
               item.isRead ? 'bg-gray-100' : 'bg-blue-50'
             }`}
           >
@@ -177,7 +177,7 @@ export default function NotificationScreen() {
             </TouchableOpacity>
           </TouchableOpacity>
         )}
-        contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 10 }}
+        contentContainerStyle={{ paddingHorizontal: 10, paddingTop: 10 }}
         showsVerticalScrollIndicator={false}
       />
 
