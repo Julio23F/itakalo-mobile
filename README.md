@@ -1,97 +1,134 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+<p align="center">
+  <img src="https://juliofaralahy.vercel.app/images/itakalo/itakalo.webp" alt="Itakalo App" width="100%" />
+</p>
 
-# Getting Started
+<h1 align="center">Itakalo</h1>
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+<p align="center">
+  <strong>Application mobile de vente, d'échange et de don d'articles</strong><br/>
+  Avec réalité augmentée · Messagerie instantanée · Géolocalisation
+</p>
 
-## Step 1: Start Metro
+<p align="center">
+  <img src="https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
+  <img src="https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white" />
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
+  <img src="https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white" />
+</p>
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+<p align="center">
+  🥈 <strong>2ème place — Concours MED / FNE 2025</strong> &nbsp;·&nbsp; Madagascar
+</p>
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+---
 
-```sh
-# Using npm
-npm start
+## Aperçu
 
-# OR using Yarn
-yarn start
+**Itakalo** est une marketplace mobile pensée pour la communauté malgache. Elle permet à chacun de **vendre, échanger ou donner** des articles facilement, avec une expérience utilisateur moderne et des fonctionnalités avancées comme la réalité augmentée et la géolocalisation.
+
+---
+
+## Fonctionnalités principales
+
+| Fonctionnalité | Description |
+|---|---|
+| 🛍️ **Marketplace** | Publiez, achetez, échangez ou donnez des articles en quelques clics |
+| 💬 **Chat intégré** | Messagerie instantanée entre acheteurs et vendeurs |
+| 📍 **Géolocalisation** | Suggestions d'articles basées sur la position de l'utilisateur |
+| 🔮 **Réalité augmentée** | Visualisez les articles en AR avant de conclure un échange |
+| 💳 **Paiement** | Système de paiement intégré pour les transactions sécurisées |
+| 👤 **Profil utilisateur** | Gestion complète du compte et des publications |
+
+---
+
+## Screenshots
+
+<p align="center">
+  <img src="https://juliofaralahy.vercel.app/images/itakalo/startscreen.jpeg" width="18%" alt="Start Screen" />
+  &nbsp;
+  <img src="https://juliofaralahy.vercel.app/images/itakalo/login.webp" width="18%" alt="Login" />
+  &nbsp;
+  <img src="https://juliofaralahy.vercel.app/images/itakalo/articles.jpeg" width="18%" alt="Articles" />
+  &nbsp;
+  <img src="https://juliofaralahy.vercel.app/images/itakalo/publication.jpeg" width="18%" alt="Publication" />
+  &nbsp;
+  <img src="https://juliofaralahy.vercel.app/images/itakalo/chat.jpeg" width="18%" alt="Chat" />
+</p>
+
+<p align="center">
+  <img src="https://juliofaralahy.vercel.app/images/itakalo/paiement.jpeg" width="18%" alt="Paiement" />
+  &nbsp;
+  <img src="https://juliofaralahy.vercel.app/images/itakalo/updateprofile.jpeg" width="18%" alt="Profil" />
+</p>
+
+---
+
+## Stack technique
+
+```
+Frontend       →  React Native · Expo · JavaScript
+UI/UX          →  Figma · Material UI
+AR             →  Réalité augmentée intégrée
+Géolocalisation→  API de localisation native
+Backend/Cloud  →  AWS (EC2 · S3 · Route 53)
+Versioning     →  Git · GitHub
 ```
 
-## Step 2: Build and run your app
+---
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+## Installation
 
-### Android
+```bash
+# Cloner le repo
+git clone https://github.com/Julio23F/itakalo.git
+cd itakalo
 
-```sh
-# Using npm
-npm run android
+# Installer les dépendances
+npm install
 
-# OR using Yarn
-yarn android
+# Lancer l'application
+npx expo start
 ```
 
-### iOS
+> Scannez le QR code avec **Expo Go** (Android / iOS) pour tester l'app sur votre téléphone.
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+---
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+## Architecture du projet
 
-```sh
-bundle install
+```
+itakalo/
+├── assets/          # Images, icônes, ressources statiques
+├── components/      # Composants réutilisables
+├── screens/         # Écrans de l'application
+│   ├── Auth/        # Login, Register
+│   ├── Home/        # Articles, Suggestions
+│   ├── Chat/        # Messagerie instantanée
+│   ├── Publish/     # Publication d'articles
+│   └── Profile/     # Gestion du profil
+├── navigation/      # React Navigation
+├── services/        # Appels API, logique métier
+└── utils/           # Fonctions utilitaires
 ```
 
-Then, and every time you update your native dependencies, run:
+---
 
-```sh
-bundle exec pod install
-```
+## Distinctions
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+> 🥈 **2ème place** au Concours de Projet organisé par la **FNE** en partenariat avec la **MED** (Maison de l'Entrepreneuriat et du Développement) — Madagascar, 2025.
 
-```sh
-# Using npm
-npm run ios
+---
 
-# OR using Yarn
-yarn ios
-```
+## Auteur
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+**Julio Faralahy** — Développeur Web & Mobile
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+[![Portfolio](https://img.shields.io/badge/Portfolio-juliofaralahy.vercel.app-0f3460?style=flat-square&logo=vercel)](https://juliofaralahy.vercel.app/)
+[![GitHub](https://img.shields.io/badge/GitHub-Julio23F-181717?style=flat-square&logo=github)](https://github.com/Julio23F)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Julio_Faralahy-0077B5?style=flat-square&logo=linkedin)](https://linkedin.com/in/Julio-FARALAHY)
 
-## Step 3: Modify your app
+---
 
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+<p align="center">
+  Fait avec ❤️ à Madagascar
+</p>
