@@ -98,17 +98,25 @@ npx expo start
 
 ```
 itakalo/
-├── assets/          # Images, icônes, ressources statiques
-├── components/      # Composants réutilisables
-├── screens/         # Écrans de l'application
-│   ├── Auth/        # Login, Register
-│   ├── Home/        # Articles, Suggestions
-│   ├── Chat/        # Messagerie instantanée
-│   ├── Publish/     # Publication d'articles
-│   └── Profile/     # Gestion du profil
-├── navigation/      # React Navigation
-├── services/        # Appels API, logique métier
-└── utils/           # Fonctions utilitaires
+├── android/               # Configuration native Android
+├── ios/                   # Configuration native iOS
+├── src/
+│   ├── Object3D/          # Objets 3D pour la réalité augmentée
+│   ├── api/               # Appels API et configuration réseau
+│   ├── assets/            # Images, icônes, ressources statiques
+│   ├── auth/              # Authentification (login, register, session)
+│   ├── components/        # Composants UI réutilisables
+│   ├── constants/         # Constantes globales (couleurs, config...)
+│   ├── context/           # Contextes React (state global)
+│   ├── data/              # Données locales et modèles
+│   ├── hooks/             # Custom hooks React
+│   ├── navigation/        # React Navigation — routes & stacks
+│   ├── screens/           # Écrans de l'application
+│   ├── services/          # Logique métier, services externes
+│   ├── styles/            # Styles globaux et thème
+│   ├── types/             # TypeScript types & interfaces
+│   └── utils/             # Fonctions utilitaires
+└── .eslintrc.js           # Configuration ESLint
 ```
 
 ---
@@ -116,6 +124,8 @@ itakalo/
 ## Distinctions
 
 > 🥈 **2ème place** au Concours de Projet organisé par la **FNE** en partenariat avec la **MED** (Maison de l'Entrepreneuriat et du Développement) — Madagascar, 2025.
+
+> 🥉 **3ème place** au **Hackathon organisé par l'IFM** (Institut Français de Madagascar) — Madagascar, 2025.
 
 ---
 
