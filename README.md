@@ -18,6 +18,8 @@
 
 <p align="center">
   🥈 <strong>2ème place — Concours MED / FNE 2025</strong> &nbsp;·&nbsp; Madagascar
+  &nbsp;·&nbsp;
+  🥉 <strong>3ème place — Hackathon organisé par l'IFM (Institut Français de Madagascar) — 2025</strong> &nbsp;·&nbsp; Madagascar
 </p>
 
 ---
